@@ -1,3 +1,4 @@
+import numpy as np
 class Game:
  
     def __init(self):
@@ -7,11 +8,11 @@ class Game:
     ''' abstract class'''
  
     def possibleMoves(self):
-        '''
-        contient les mouvements possible a effectuer
-                a un instant T du jeu par un joueur
- 
-        '''
+        moves=np.array([])
+        test=np.array([[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]])
+        moves=["0,0","0,1","0,2","1,1","1,2","2,1"]
+        return moves
+
 
     def play(self):
  
