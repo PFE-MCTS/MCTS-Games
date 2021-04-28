@@ -16,7 +16,8 @@ class Game:
 
     def play(self):
  
-        ''' 
+        '''
+
         fonction qui fais le jeu
                 invoque la fonction possibleMoves() pour jouer
  

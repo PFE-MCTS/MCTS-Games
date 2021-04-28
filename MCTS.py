@@ -4,6 +4,7 @@ from Node import *
 from Game import *
         
 class Mcts:
+    LeafList = []
     
     def __init__(self, game, root: Nodes, number_rollout):
         self.game = game
@@ -13,17 +14,35 @@ class Mcts:
         self.runtime = 0
         self.rolloutDone = 0
         self.Number_Rollout = number_rollout
-    
- 
+
+
+    def select_leaf(self, root: Nodes):            # probleme retourne None
+        '''
+        retourne tous les fils existants
+        :return:
+        '''
+        if root is None:
+            return []
+        if root.children == []:
+            self.Arr.append(root)
+        else:
+            for child in root.children:
+                self.select_leaf(child)
+
+
+
+
+
+
     def Select_Node(self) -> int:
         '''
             phase de selection des noeuds en applicant UCB 
         '''
-        leafList=[]
-        if(self.root.is_leaf()):
-            return 1
-        else:
-            self.root.children
+
+
+        print(self.select_leaf(self.root))
+        #print(leafList)
+
 
 
 
@@ -49,7 +68,7 @@ class Mcts:
     def UCT(self, node: Nodes) -> float:
         
         ''' calcul de l'UCT a travers la formule UCB '''
-        #NbrVisitesRacines=self.root.Visits
+
         return node.Score / node.Visits + 2 * math.sqrt(math.log(self.root.Visits)/node.Visits)
  
     def BackPropagation(self, rolloutnode: Nodes):

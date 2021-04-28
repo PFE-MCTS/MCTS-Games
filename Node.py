@@ -16,19 +16,12 @@ class Nodes:
         méthode verrifiant si le noeud est une feuille
         si le noeud est une feuille elle retourne true
         sinon elle retourne false
-        
         '''
+
         if(self.children == []):
             return True
         else:
             return False
-
-
-    def select_leaf(self):
-        '''
-        selection de fils
-        :return:
-        '''
 
 
 
