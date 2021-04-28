@@ -17,10 +17,25 @@ child2.children.append(child3)
 child2.children.append(child4)
 
 mcts=Mcts(Game, root, 0)
+partie= Game()
+partie.play()
 
-mcts.select_leaf(root)
+
+
+mcts.BackPropagation(child4, partie)
+
+print("Game.Score=", partie.Score)
+print("Child 1 score= ",child1.Score)
+print("child1 Visits=",child1.Visits)
+
+print(" root Score ", root.Score)
+
+print("root visites ", root.Visits)
+
+'''mcts.select_leaf(root)
 print(mcts.LeafList[0].value)
-game = Game()
+game = Game()'''
+
 '''
 mcts.expand_Node(game, child4)
 

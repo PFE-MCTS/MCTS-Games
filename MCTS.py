@@ -67,6 +67,7 @@ class Mcts:
         le resultat du rollout est un score entier
  
         '''
+
  
  
     def UCT(self, node: Nodes) -> float:
@@ -74,14 +75,28 @@ class Mcts:
         ''' calcul de l'UCT a travers la formule UCB '''
 
         return node.Score / node.Visits + 2 * math.sqrt(math.log(self.root.Visits)/node.Visits)
- 
-    def BackPropagation(self, rolloutnode: Nodes):
+
+
+
+    def BackPropagation(self, rolloutnode: Nodes, score: Game):
         
         ''' 
         phase de backpropagation du score et du nombre de visites
  
         '''
-        #if rolloutnode.is_terminal(Game):
+        while rolloutnode.parent is not None:
+            rolloutnode.Visits+=1
+            rolloutnode.Score+= score.Score
+            rolloutnode = rolloutnode.parent
+
+
+        self.root.Visits += 1
+        self.Score += score.Score
+        self.root.Score += score.Score
+
+
+
+
 
 
 

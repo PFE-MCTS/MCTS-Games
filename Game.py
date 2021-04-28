@@ -3,7 +3,8 @@ class Game:
     def __init__(self):
         self.turn=1
         self.winner=None
-        self.state=None
+        self.state=['1','2','3','4','5','6','7','8','9']
+        self.Score=0
 
     
    
@@ -13,7 +14,6 @@ class Game:
  
     def possibleMoves(self):
 
-        self.state=['1','2','3','4','5','6','7','8','9']
         return self.state        
 
     
@@ -73,7 +73,7 @@ class Game:
                     print("Joueur "+str(self.winner)+" a gagné")
                         
     
-    def HasWon(self):
+    def HasWon(self)-> int:
         
         #rows
         if board[0]==board[1]==board[2]!=" ":
@@ -124,12 +124,25 @@ class Game:
         if " " not in board:
             self.winner=0
 
+        if(self.winner==1):
+            self.Score= 1
+
+        elif self.winner==2:
+            self.Score= -1
+
+        else:
+            self.Score=0
+
+
+        return self.winner
+
         
 
 board=[" "," "," ",
        " "," "," ",
        " "," "," "]
 
-
+'''
 test=Game()
 test.play()
+'''
