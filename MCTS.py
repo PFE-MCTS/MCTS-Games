@@ -4,7 +4,7 @@ from Node import *
 from Game import *
         
 class Mcts:
-    LeafList = []
+    LeafList = []       #global var
     
     def __init__(self, game, root: Nodes, number_rollout):
         self.game = game
@@ -23,8 +23,8 @@ class Mcts:
         '''
         if root is None:
             return []
-        if root.children == []:
-            self.Arr.append(root)
+        if root.is_leaf():
+            self.LeafList.append(root)
         else:
             for child in root.children:
                 self.select_leaf(child)
@@ -40,8 +40,7 @@ class Mcts:
         '''
 
 
-        print(self.select_leaf(self.root))
-        #print(leafList)
+
 
 
 
@@ -52,6 +51,11 @@ class Mcts:
         induis a lajout de fils (children au noeud en parametres)
  
         '''
+        if node.is_leaf():
+            node.add_children(moves)
+
+
+
  
     def rollout(self, game: Game, leaf: Nodes) -> int:
         
@@ -77,3 +81,7 @@ class Mcts:
         phase de backpropagation du score et du nombre de visites
  
         '''
+        #if rolloutnode.is_terminal(Game):
+
+
+

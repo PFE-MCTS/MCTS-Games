@@ -10,7 +10,8 @@ class Nodes:
         self.Score = 0
         self.moves = moves #array
         self.value=value
- 
+
+
     def is_leaf(self) -> bool:
         '''
         méthode verrifiant si le noeud est une feuille
@@ -39,7 +40,7 @@ class Nodes:
     
     def add_children(self, game: Game):
         for move in game.possibleMoves():
-            self.children.append(Nodes(None,self,game.possibleMoves()[move]))
+            self.children.append(Nodes(None, self, move))
 
 
     

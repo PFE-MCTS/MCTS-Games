@@ -10,7 +10,7 @@ class Game:
     def possibleMoves(self):
         moves=np.array([])
         test=np.array([[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]])
-        moves=["0,0","0,1","0,2","1,1","1,2","2,1"]
+        moves=["0,0","0,1","0,6","1,1","1,2","2,1"]
         return moves
 
 

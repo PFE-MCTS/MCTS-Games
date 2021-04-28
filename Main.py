@@ -18,17 +18,15 @@ child2.children.append(child4)
 
 mcts=Mcts(Game, root, 0)
 
-#mcts.Select_Node()
-
+mcts.select_leaf(root)
+print(mcts.LeafList[0].value)
+game = Game()
 '''
-print(root.select_leaf(root))
-child1.Score=10
-print(child1.__dict__)
+mcts.expand_Node(game, child4)
+
+print(child4.__dict__)
 '''
 
-array=[]
-array.append(mcts.select_leaf(root))
-print(mcts.Arr)
 
 '''print(root.children)
 print(child2.children)
