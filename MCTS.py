@@ -34,14 +34,22 @@ class Mcts:
 
 
 
-    def Select_Node(self) -> int:
+    def Select_Node(self, root: Nodes) -> int:          #pas encore testé
         '''
             phase de selection des noeuds en applicant UCB 
         '''
+        # condition si le noeud a un fils is leaf
+        valeurUCT = 0
+        MaxNode = None
+        while root.children is not []:
 
-
-
-
+            for node in root.children:
+                if valeurUCT <= self.UCT(node):
+                    valeurUCT = self.UCT(node)
+                    MaxNode = node
+                else:
+                    pass
+            root = MaxNode
 
 
 
@@ -55,8 +63,23 @@ class Mcts:
             node.add_children(moves)
 
 
+    def get_ActualState(self, node: Nodes):
+        '''
+        fonction servant a donner l'état du jeu  a partir d'un noeud afin de faire un rollout
+        prends en paramettre le noeud,
+        :return: une liste de valeurs des noeuds
+        '''
+        ActualState=[]
 
- 
+        while node.parent is not None:
+            ActualState.append(node.value)
+            node = node.parent
+
+        return ActualState
+
+
+
+
     def rollout(self, game: Game, leaf: Nodes) -> int:
         
         '''
@@ -68,13 +91,22 @@ class Mcts:
  
         '''
 
+        game.possibleMoves()
+
+
+
+
+
+
  
  
     def UCT(self, node: Nodes) -> float:
         
         ''' calcul de l'UCT a travers la formule UCB '''
-
-        return node.Score / node.Visits + 2 * math.sqrt(math.log(self.root.Visits)/node.Visits)
+        if node.Visits ==0:
+            return float('inf')
+        else:
+            return node.Score / node.Visits + 2 * math.sqrt(math.log(self.root.Visits)/node.Visits)
 
 
 

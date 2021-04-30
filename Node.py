@@ -30,13 +30,20 @@ class Nodes:
 
 
     
-    def is_terminal(self, Game) -> bool:
+    def is_terminal(self, game:Game) -> bool:               # a revoir
         ''' Méthode qui verrifie si le noeud est terminal
  
         si noeud terminal return true
         sinon return false
         
         '''
+
+        if(game.HasWon()):
+            return True
+        else:
+            return False
+
+
     
     def add_children(self, game: Game):
         for move in game.possibleMoves():
@@ -44,6 +51,6 @@ class Nodes:
 
 
     
-    def find_Random_Child(self, move: Game):
+    def find_Random_Child(self, move: Game):                # a revoir
         '''trouver un fils aléatoirement'''
         return random.choice(move.possibleMoves())
