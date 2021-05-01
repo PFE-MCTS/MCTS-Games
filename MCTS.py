@@ -51,6 +51,8 @@ class Mcts:
                     pass
             root = MaxNode
 
+        return MaxNode
+
 
 
     def expand_Node(self, moves: Game, node: Nodes):
@@ -117,10 +119,9 @@ class Mcts:
  
         '''
         while rolloutnode.parent is not None:
-            rolloutnode.Visits+=1
-            rolloutnode.Score+= score.Score
+            rolloutnode.Visits += 1
+            rolloutnode.Score += score.Score
             rolloutnode = rolloutnode.parent
-
 
         self.root.Visits += 1
         self.Score += score.Score
