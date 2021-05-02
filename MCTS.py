@@ -2,6 +2,7 @@ import math
 
 from Node import *
 from Game import *
+from TicTacToe import *
         
 class Mcts:
     LeafList = []       #global var
@@ -31,6 +32,20 @@ class Mcts:
 
 
 
+    def selectMove(self,actualNode: Nodes):         # pas encore testée
+        valeurUCT = 0
+        MaxNode = None
+        while actualNode.children is not []:
+
+            for node in actualNode.children:
+                if valeurUCT <= self.UCT(node):
+                    valeurUCT = self.UCT(node)
+                    MaxNode = node
+                else:
+                    pass
+
+        return MaxNode
+
 
 
 
@@ -38,7 +53,7 @@ class Mcts:
         '''
             phase de selection des noeuds en applicant UCB 
         '''
-        # condition si le noeud a un fils is leaf
+                            # condition si le noeud a un fils is leaf
         valeurUCT = 0
         MaxNode = None
         while root.children is not []:
@@ -93,7 +108,8 @@ class Mcts:
  
         '''
 
-        game.possibleMoves()
+
+
 
 
 

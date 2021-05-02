@@ -22,10 +22,10 @@ class TicTacToe (Game):
         elif self.turn == 2:
             self.turn = 1
 
-    def play(self,turn,coup=None):
+    def play(self, turn, coup=None):
 
-        #self.display_state()
-        self.turn=turn
+
+        self.turn = turn
 
         if coup is None:
             #instance de play
@@ -34,7 +34,7 @@ class TicTacToe (Game):
                 position = input("Position incorrecte, Choissisez une position entre (1 et 9): ")
         else:
            #instance de simulation
-            position=coup
+            position = coup
                                            
         index = self.state.index(str(position))
         self.state.pop(index)
@@ -60,6 +60,8 @@ class TicTacToe (Game):
                 print("Match nul " + str(self.winner))
             else:
                 print("Joueur " + str(self.winner) + " a gagné")
+
+        return position
 
             
 
