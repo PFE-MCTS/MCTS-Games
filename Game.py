@@ -7,8 +7,8 @@ class Game(ABC):
         self.state=state            #état du jeu ( les cases restantes)
         self.Score=0
         self.board = [" ", " ", " ",
-                 " ", " ", " ",
-                 " ", " ", " "]
+                      " ", " ", " ",
+                      " ", " ", " "]
 
 
 
@@ -35,7 +35,7 @@ class Game(ABC):
 
 
     @abstractmethod
-    def play(self):
+    def play(self,turn,coup=None):
 
         pass
 
