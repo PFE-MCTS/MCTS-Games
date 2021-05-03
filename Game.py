@@ -12,9 +12,6 @@ class Game(ABC):
 
 
 
-
-
-
     @abstractmethod
     def possibleMoves(self):
         '''

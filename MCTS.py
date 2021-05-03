@@ -1,4 +1,5 @@
 import math
+from neo4j import GraphDatabase
 
 from Node import *
 from Game import *
@@ -32,41 +33,54 @@ class Mcts:
 
 
 
-    def selectMove(self,actualNode: Nodes):         # pas encore testée
+    def selectMove(self,actualNode: Nodes):
         valeurUCT = 0
         MaxNode = None
-        while actualNode.children is not []:
-
+        if actualNode.children != []:
             for node in actualNode.children:
                 if valeurUCT <= self.UCT(node):
                     valeurUCT = self.UCT(node)
                     MaxNode = node
-                else:
-                    pass
 
-        return MaxNode
-
-
+            return MaxNode
+        else:
+            return actualNode
 
 
-    def Select_Node(self, root: Nodes) -> int:          #pas encore testé
+
+
+
+    def Select_Node(self, root: Nodes):
         '''
             phase de selection des noeuds en applicant UCB 
         '''
                             # condition si le noeud a un fils is leaf
-        valeurUCT = 0
-        MaxNode = None
-        while root.children is not []:
-
+        if root.children == []:
+            return root.value
+        else:
+            UTC = 0
+            MaxNode = None
             for node in root.children:
-                if valeurUCT <= self.UCT(node):
-                    valeurUCT = self.UCT(node)
+                if (self.UCT(node) > UTC):
+                    UTC = self.UCT(node)
                     MaxNode = node
-                else:
-                    pass
-            root = MaxNode
+            return self.Select_Node(MaxNode)
 
-        return MaxNode
+
+
+
+
+
+
+    def find_Node(self, root:Nodes, valeur):
+
+        for node in root.children:
+            if node.value == valeur:
+                return node
+            else:
+                return False
+
+
 
 
 
@@ -107,24 +121,23 @@ class Mcts:
         le resultat du rollout est un score entier
  
         '''
+        while game.winner == None:
+            if game.turn == 1:
+                game.play(2, random.choice(game.possibleMoves()))
+                game.turn = 2
+            else:
+                game.play(1, random.choice(game.possibleMoves()))
+                game.turn = 1
+        return game.Score
 
 
-
-
-
-
-
-
-
- 
- 
     def UCT(self, node: Nodes) -> float:
         
         ''' calcul de l'UCT a travers la formule UCB '''
-        if node.Visits ==0:
+        if node.Visits == 0:
             return float('inf')
         else:
-            return node.Score / node.Visits + 2 * math.sqrt(math.log(self.root.Visits)/node.Visits)
+            return (node.Score / node.Visits) + 2 * (math.sqrt(math.log(self.root.Visits)/node.Visits) )
 
 
 

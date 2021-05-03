@@ -27,20 +27,28 @@ class main:
         while(ticTac.winner is None):
 
             ValeurJouer = ticTac.play(1)                #   ici  demander au joueur de jouer
-
             Simulation.board = ticTac.board              # mettre la simualtion est dans le meme etat que le jeu
             Simulation.state = ticTac.state
 
-            # to do: ajouter condition pour voir si le noeud exite deja pas besoin de le créer
 
-            Node = Nodes(None, root, ValeurJouer)
-            root.children.append(Node)
+
+
+            if mcts.find_Node(root, ValeurJouer) == False:              # voir si le noeud existe deja si non le créer
+
+                Node= mcts.find_Node(root, ValeurJouer)
+
+            else:
+                Node = Nodes(None, root, ValeurJouer)
+                root.children.append(Node)
+
+
 
             if Node.children == []:
                 Node.add_children(Simulation)                   # pour ajouter les fils du noeud
 
 
             Iteration = 0
+
             while Iteration is not 500:
 
 
@@ -82,7 +90,7 @@ class main:
 
             ComputerNodePlayed = Nodes(None, Node, ValeurJouer)
             Node.children.append(ComputerNodePlayed)
-            root= ComputerNodePlayed
+            root =  ComputerNodePlayed
 
 
 

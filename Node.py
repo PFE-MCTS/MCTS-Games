@@ -3,13 +3,13 @@ import random
 from Game import *
 class Nodes:
  
-    def __init__(self, moves, parent:object, value=None):
+    def __init__(self, moves, parent: object, value=None):
         self.parent = parent
         self.children = []
         self.Visits = 0
         self.Score = 0
         self.moves = moves #array
-        self.value=value
+        self.value = value
 
 
     def is_leaf(self) -> bool:
