@@ -18,7 +18,7 @@ class Mcts:
         self.Number_Rollout = number_rollout
 
 
-    def select_leaf(self, root: Nodes):            # probleme retourne None
+    def select_leaf(self, root: Nodes):
         '''
         retourne tous les fils existants
         :return:
