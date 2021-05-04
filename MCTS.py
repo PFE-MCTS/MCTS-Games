@@ -6,6 +6,7 @@ from Game import *
 from TicTacToe import *
         
 class Mcts:
+
     LeafList = []       #global var
     
     def __init__(self, game, root: Nodes, number_rollout):
@@ -56,7 +57,7 @@ class Mcts:
         '''
                             # condition si le noeud a un fils is leaf
         if root.children == []:
-            return root.value
+            return root
         else:
             UTC = 0
             MaxNode = None
@@ -141,7 +142,7 @@ class Mcts:
 
 
 
-    def BackPropagation(self, rolloutnode: Nodes, score: Game):
+    def BackPropagation(self, rolloutnode: Nodes, score):
         
         ''' 
         phase de backpropagation du score et du nombre de visites
@@ -149,12 +150,12 @@ class Mcts:
         '''
         while rolloutnode.parent is not None:
             rolloutnode.Visits += 1
-            rolloutnode.Score += score.Score
+            rolloutnode.Score += score
             rolloutnode = rolloutnode.parent
 
         self.root.Visits += 1
-        self.Score += score.Score
-        self.root.Score += score.Score
+        self.Score += score
+        self.root.Score += score
 
 
 

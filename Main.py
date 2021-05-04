@@ -17,6 +17,7 @@ class main:
     '''
 
     def play(self):
+
         ticTac = TicTacToe()        # instance du jeu
         Simulation = TicTacToe()            # instance de jeu utilisant MCTS ( afin de generer l'arbre)
         root = Nodes(None, None, None)  # creation de l'arbre
@@ -24,7 +25,7 @@ class main:
 
 
 
-        while(ticTac.winner is None):
+        while(ticTac.winner == None):
 
             ValeurJouer = ticTac.play(1)                #   ici  demander au joueur de jouer
             Simulation.board = ticTac.board              # mettre la simualtion est dans le meme etat que le jeu
@@ -35,11 +36,12 @@ class main:
 
             if mcts.find_Node(root, ValeurJouer) == False:              # voir si le noeud existe deja si non le créer
 
-                Node= mcts.find_Node(root, ValeurJouer)
-
-            else:
                 Node = Nodes(None, root, ValeurJouer)
                 root.children.append(Node)
+
+            else:
+                Node = mcts.find_Node(root, ValeurJouer)            # se diriger vers le noeud deja existant
+
 
 
 
@@ -54,19 +56,25 @@ class main:
 
                 Selected_Node = mcts.Select_Node(Node)
 
-                if Selected_Node is float('inf'):
+                if Selected_Node.Visits == 0:
                     '''
                     si le noeud n'est pas exploré
                     faire un rollout
                     '''
-                    mcts.rollout(Simulation, Selected_Node)
 
-                    '''
-                    ensuite on fais une back propagation
+                    Number_Rollout = mcts.Number_Rollout
 
-                    '''
+                    for i in range(Number_Rollout):
 
-                    mcts.BackPropagation(Selected_Node, Simulation)
+                        Score = mcts.rollout(Simulation, Selected_Node)
+
+                        '''
+                        ensuite on fais une back propagation
+
+                        '''
+                        mcts.BackPropagation(Selected_Node, Score)
+
+
 
                 else:
                     '''
@@ -82,15 +90,20 @@ class main:
                 '''
                  apres les 500 iterations au tour de l'ordinateur de jouer
                 '''
-            MaxUCBNode = mcts.selectMove(Selected_Node)
+            MaxUCBNode = mcts.selectMove(Node)
 
             ticTac.play(2, MaxUCBNode.value)                          # l'ordinateur joue le noeud ayant la plus grande valeur
             Simulation.board = ticTac.board
             Simulation.state = ticTac.state
 
-            ComputerNodePlayed = Nodes(None, Node, ValeurJouer)
-            Node.children.append(ComputerNodePlayed)
-            root =  ComputerNodePlayed
+            if mcts.find_Node(Node, MaxUCBNode.value) == False:  # voir si le noeud existe deja si non le créer
+
+                Node = Nodes(None, Node, ValeurJouer)
+                Node.children.append(Node)
+
+            else:
+                Node = mcts.find_Node(root, ValeurJouer)  # se diriger vers le noeud deja existant
+                root = Node
 
 
 

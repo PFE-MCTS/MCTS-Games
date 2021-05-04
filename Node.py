@@ -37,7 +37,7 @@ class Nodes:
         sinon return false
         
         '''
-        if(game.HasWon()):
+        if(game.winner != None):
             return True
         else:
             return False
