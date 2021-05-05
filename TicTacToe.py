@@ -3,6 +3,17 @@ class TicTacToe (Game):
 
 
 
+    def __init__(self, state=['1', '2', '3', '4', '5', '6', '7', '8', '9']):
+        self.turn = 1
+        self.winner = None
+        self.state = state  # état du jeu ( les cases restantes)
+        self.Score = 0
+        self.board = [" ", " ", " ",
+                      " ", " ", " ",
+                      " ", " ", " "]
+
+
+
     def possibleMoves(self):
         '''
         fonction a utiliser lors du rollout, prends en parametre l'etat actuel du noeud ainsi que le noeud

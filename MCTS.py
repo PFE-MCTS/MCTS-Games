@@ -45,7 +45,7 @@ class Mcts:
 
             return MaxNode
         else:
-            return actualNode
+            print(" select move erreur")
 
 
 
@@ -75,12 +75,14 @@ class Mcts:
 
     def find_Node(self, root:Nodes, valeur):
 
-        for node in root.children:
-            if node.value == valeur:
-                return node
-            else:
-                return False
-
+        if(root.children != []):
+            for node in root.children:
+                if node.value == valeur:
+                    return node
+                else:
+                    return False
+        else:
+            return False
 
 
 
