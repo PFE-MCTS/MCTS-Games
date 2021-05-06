@@ -1,8 +1,6 @@
 import math
-from neo4j import GraphDatabase
 
 from Node import *
-from Game import *
 from TicTacToe import *
         
 class Mcts:
@@ -45,7 +43,7 @@ class Mcts:
 
             return MaxNode
         else:
-            print(" select move erreur")
+            print(" selectMove erreur")
 
 
 
@@ -93,11 +91,15 @@ class Mcts:
         induis a lajout de fils (children au noeud en parametres)
  
         '''
-        if node.is_leaf():
-            node.add_children(moves)
+        board = node.getBoard()
+        if(node.is_terminal(moves, board) == False):            # expension a revoir
+            if node.is_leaf():
+                node.add_children(moves)
 
 
-    def get_ActualState(self, node: Nodes):
+
+
+    def get_ActualState(self, node: Nodes):             # a revoir ou supprimer
         '''
         fonction servant a donner l'état du jeu  a partir d'un noeud afin de faire un rollout
         prends en paramettre le noeud,
@@ -114,7 +116,7 @@ class Mcts:
 
 
 
-    def rollout(self, game: Game, leaf: Nodes) -> int:
+    def rollout(self, game: Game, leaf: Nodes) -> int:              # a revoir
         
         '''
         phase de rollout(simulation)
@@ -158,6 +160,71 @@ class Mcts:
         self.root.Visits += 1
         self.Score += score
         self.root.Score += score
+
+
+    def ApplyMCTS(self,game: Game, currentNode: Nodes):
+
+        iteration = 0
+        while iteration < 50:
+
+            if currentNode == []:
+                currentNode.add_children(game)
+
+            SelectedNode = self.Select_Node(currentNode)
+
+
+            if SelectedNode.Visits == 0:
+                Score = self.rollout(game, SelectedNode)
+
+                self.BackPropagation(SelectedNode, Score)
+
+            else:
+                self.expand_Node(game, SelectedNode)
+
+
+            iteration += 1
+
+
+    def ComputerPlay(self, game: Game, currentNode: Nodes):
+
+        self.applyMCTS(game, currentNode)
+
+
+        ComputerMove = self.selectMove(currentNode)
+        game.play(2, ComputerMove.value)
+
+
+
+        '''
+        if LastComputerMove == None:
+
+            ActualState = self.find_Node(self.root, LastPlayerMove)
+
+        else:
+
+            ActualState = self.find_Node(self.root, LastPlayerMove)
+            self.find_Node(ActualState, LastComputerMove)
+            
+            #ensuite a travers l'arbre nous devons jouer
+
+        deplacementOrdinateur = self.selectMove(ActualState)
+
+        #return "le noeud quelle va jouer"
+'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

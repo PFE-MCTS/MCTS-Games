@@ -24,32 +24,35 @@ class Nodes:
         else:
             return False
 
-
+    def getBoard(self):
+        '''
+        méthode donnant l'état du jeu a travers un noeud donné
+        :return: retourne une board
+        '''
+        pass
 
 
 
 
     
-    def is_terminal(self, game:Game) -> bool:               # a revoir
+    def is_terminal(self, game:Game, board) -> bool:               # a revoir
         ''' Méthode qui verrifie si le noeud est terminal
  
         si noeud terminal return true
         sinon return false
         
         '''
-        if(game.winner != None):
-            return True
-        else:
+        if game.HasWon(board) == None:
             return False
+        else:
+            return True
 
 
-    
     def add_children(self, game: Game):
         for move in game.possibleMoves():
             self.children.append(Nodes(None, self, move))
 
-
     
     def find_Random_Child(self, move: Game):                # a revoir
-        '''trouver un fils aléatoirement'''
+ #       trouver un fils aléatoirement
         return random.choice(move.possibleMoves())
