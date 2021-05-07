@@ -18,19 +18,25 @@ class main:
 
     def play(self, game: Game):
 
+                    #declarations
 
         ticTac = TicTacToe(['1','2','3','4','5','6','7','8','9'])        # instance du jeu
         player1 = Tplayer()         #demander au joueur 1 de joueur
         mcts = Mcts(ticTac, Nodes(None, None, None), 1)
 
+
+        # initialisation mcts
         mcts.root.add_children(ticTac)          # Ajouter des fils a la racine
         ActualState = mcts.root
 
         while game.winner == None:
 
-         DeplacementJoueur = player1.play(game)
+
+            # jeux joueur 1
+         DeplacementJoueur = player1.Player1Move(game)
          ActualState = mcts.find_Node(ActualState, DeplacementJoueur)
 
+            # jeux ordinateur
          deplacementordinateur = mcts.ComputerPlay(game, ActualState)
          ActualState = mcts.find_Node(ActualState, deplacementordinateur)
 

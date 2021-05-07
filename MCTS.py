@@ -167,7 +167,7 @@ class Mcts:
         iteration = 0
         while iteration < 50:
 
-            if currentNode == []:
+            if currentNode.children == []:
                 currentNode.add_children(game)
 
             SelectedNode = self.Select_Node(currentNode)

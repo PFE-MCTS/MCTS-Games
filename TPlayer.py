@@ -8,5 +8,5 @@ class Tplayer:
 
 
 
-    def play(self,game:Game):
+    def Player1Move(self,game:Game):
         Game.play(1)

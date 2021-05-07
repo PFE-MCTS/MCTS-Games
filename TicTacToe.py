@@ -5,6 +5,8 @@ class TicTacToe (Game):
 
     def __init__(self,state=['1','2','3','4','5','6','7','8','9']):
         self.turn = 1
+        self.player1 = "X"
+        self.player2 = "O"
         self.winner = None
         self.state = state  # état du jeu ( les cases restantes)
         self.Score = 0
@@ -14,13 +16,23 @@ class TicTacToe (Game):
 
 
 
-    def possibleMoves(self, board):
+    def possibleMoves(self, board=None):
         '''
         fonction a utiliser lors du rollout, prends en parametre l'etat actuel du noeud ainsi que le noeud
         :return: une liste de mouvements possibles
         '''
-        # a faire par aziz
-        return self.state
+
+        if board == None:
+            return self.state
+        else:
+            possibleMove=[]
+            for parcours in board:
+                if parcours ==" ":
+                    possibleMove.append(board.index(parcours))
+
+            return possibleMove
+
+
 
     def display_state(self):
         print(self.board[0] + " | " + self.board[1] + " | " + self.board[2])
@@ -64,6 +76,9 @@ class TicTacToe (Game):
 
         return position
 
+
+    def simulation(self, board, nextTurn):
+        pass
 
     '''def play1(self, turn, coup=None):
 

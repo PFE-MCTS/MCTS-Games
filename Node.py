@@ -8,9 +8,8 @@ class Nodes:
         self.children = []
         self.Visits = 0
         self.Score = 0
-        self.moves = moves #array
         self.value = value
-
+        self.CurrentGameState = None
 
     def is_leaf(self) -> bool:
         '''
@@ -24,12 +23,22 @@ class Nodes:
         else:
             return False
 
-    def getBoard(self):
-        '''
+    '''def getBoard(self, simulation: Game, boardTemplate):
+        
         méthode donnant l'état du jeu a travers un noeud donné
-        :return: retourne une board
+        :return: un dictionnaire {"board"=[], "NextPlayer" }
         '''
-        pass
+
+
+
+    def getNodeDepth(self):
+        count = 0
+        while self.parent != None:
+            count += 1
+            self = self.parent
+
+        return count
+
 
 
 
@@ -52,7 +61,3 @@ class Nodes:
         for move in game.possibleMoves():
             self.children.append(Nodes(None, self, move))
 
-    
-    def find_Random_Child(self, move: Game):                # a revoir
- #       trouver un fils aléatoirement
-        return random.choice(move.possibleMoves())
