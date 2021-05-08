@@ -10,35 +10,36 @@ class main:
 
 
 
-    def testerTicTacToe(self,game:Game):
+    '''def testerTicTacToe(self,game:Game):
         game.play1(2,4)
         print(game.state)
+    '''
 
-
+    #ticTac: Objet jeux, contient les méthodes "nextMoves"  # possible moves
 
     def play(self, game: Game):
 
                     #declarations
 
-        ticTac = TicTacToe(['1','2','3','4','5','6','7','8','9'])        # instance du jeu
+        tictac = TicTacToe()
+        currentGameState = {'board': [" ", " ", " ", " ", " ", " ", " ", " ", " "], 'nextPlayer' : "X", 'LastValuePlayed':None}
         player1 = Tplayer()         #demander au joueur 1 de joueur
-        mcts = Mcts(ticTac, Nodes(None, None, None), 1)
+        mcts = Mcts(tictac, 1)
+        mcts.initialize(currentGameState)
 
 
-        # initialisation mcts
-        mcts.root.add_children(ticTac)          # Ajouter des fils a la racine
-        ActualState = mcts.root
+        lastMCTSState = currentGameState
 
-        while game.winner == None:
-
-
+        while tictac.winner == None:
             # jeux joueur 1
-         DeplacementJoueur = player1.Player1Move(game)
-         ActualState = mcts.find_Node(ActualState, DeplacementJoueur)
+
+          currentGameState = player1.Player1Move(game, currentGameState)
 
             # jeux ordinateur
-         deplacementordinateur = mcts.ComputerPlay(game, ActualState)
-         ActualState = mcts.find_Node(ActualState, deplacementordinateur)
+          currentGameState = mcts.ComputerPlay(game, lastMCTSState, currentGameState)
+          lastMCTSState = currentGameState
+
+
 
 
 

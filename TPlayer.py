@@ -3,10 +3,15 @@ from TicTacToe import *
 class Tplayer:
 
     def __init__(self):
-        pass
 
 
 
+        '''
+        {'board': [" ", " ", " ", " ", " ", " ", " ", " ", " "], 'nextPlayer' : "X"}
+        '''
 
-    def Player1Move(self,game:Game):
-        Game.play(1)
+    def Player1Move(self, game: Game, currentGameState):
+
+
+        result = game.play(currentGameState)
+        return  {'board': result['board'], 'nextPlayer': "0", 'value': result['value']}

@@ -15,6 +15,32 @@ class TicTacToe (Game):
                       " ", " ", " "]
 
 
+        '''
+        self.board ={["X", "O", "X",
+                      " ", "O", "O",
+                      " ", " ", " "],
+                      Qui va jouer ? O
+        }
+
+        self.board ={["X", "O", "X",
+                      " ", "O", "O",
+                      " ", " ", "O"],
+                      Qui va jouer ? X
+        }
+
+        self.board ={["X", "O", "X",
+                      "X", "O", "O",
+                      " ", " ", "O"],
+                      Qui va jouer ? O
+        }
+
+
+        self.board ={["X", "O", "X",
+                      "X", "O", "O",
+                      " ", "O", "O"],
+                      Qui va jouer ? Terminé
+        }
+            '''
 
     def possibleMoves(self, board=None):
         '''
@@ -26,18 +52,17 @@ class TicTacToe (Game):
             return self.state
         else:
             possibleMove=[]
-            for parcours in board:
-                if parcours ==" ":
-                    possibleMove.append(board.index(parcours))
-
+            for i in range(len(board)):
+                if board[i] ==" ":
+                    possibleMove.append(i+1)
             return possibleMove
 
 
 
-    def display_state(self):
-        print(self.board[0] + " | " + self.board[1] + " | " + self.board[2])
-        print(self.board[3] + " | " + self.board[4] + " | " + self.board[5])
-        print(self.board[6] + " | " + self.board[7] + " | " + self.board[8])
+    def display_state(self,board):
+        print(board[0] + " | " + board[1] + " | " + board[2])
+        print(board[3] + " | " + board[4] + " | " + board[5])
+        print(board[6] + " | " + board[7] + " | " + board[8])
 
     def change_player(self):
 
@@ -47,34 +72,43 @@ class TicTacToe (Game):
             self.turn = 1
 
 
-    def play(self,turn,Coup=None):
-        if(turn == 1):
+    def play(self, currentGameState, Coup=None):
+
+        GameTurn= currentGameState['nextPlayer']
+        board = currentGameState['board']
+
+        if(GameTurn == "X"):
             position = input(" Choissisez une position entre (1 et 9): ")
             while position not in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
                 position = input("Position incorrecte, Choissisez une position entre (1 et 9): ")
 
             index = self.state.index(str(position))
-            self.state.pop(index)
             position = int(position) - 1
-            if self.board[position] != " ":
+            if board[position] != " ":
                 raise RuntimeError("Mouvement incorrecte")
 
-            self.board[position] = "X"
-            self.display_state()
-            self.HasWon()
+            board[position] = "X"
+            currentGameState['board'] = board
+            self.display_state(board)
+            self.HasWon(board)
+
+            return {'board': board, 'value': position+1}
         else:
 
             index = self.state.index(str(Coup))
-            self.state.pop(index)
+#            self.state.pop(index)
             position = int(Coup) - 1
-            if self.board[position] != " ":
+            if board[position] != " ":
                 raise RuntimeError("Mouvement incorrecte")
 
-            self.board[position] = "O"
-            self.display_state()
-            self.HasWon()
+            board[position] = "O"
+            currentGameState['board'] = board
 
-        return position
+            self.display_state(board)
+            self.HasWon(board)
+            return {'board': board,'value': Coup}
+
+
 
 
     def simulation(self, board, nextTurn):

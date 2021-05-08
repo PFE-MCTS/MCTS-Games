@@ -1,15 +1,23 @@
 import random
 
 from Game import *
-class Nodes:
+class TNode:
  
-    def __init__(self, moves, parent: object, value=None):
+    def __init__(self, parent: object, GameState, value=None ):
         self.parent = parent
         self.children = []
         self.Visits = 0
         self.Score = 0
         self.value = value
-        self.CurrentGameState = None
+        self.currentGameState = GameState
+
+
+        '''CurrentGameState de type : {Board: ["X", "O", "X",
+                              " ", "O", "O",
+                              " ", " ", " "],
+                     Player: "O"
+                }
+        '''
 
     def is_leaf(self) -> bool:
         '''
@@ -57,7 +65,14 @@ class Nodes:
             return True
 
 
-    def add_children(self, game: Game):
-        for move in game.possibleMoves():
-            self.children.append(Nodes(None, self, move))
-
+    def add_children(self, game: Game,currentState):
+        board = currentState['board']
+        if currentState['nextPlayer'] == game.player1:
+            nextPlayer = game.player2
+        else:
+            nextPlayer = game.player1
+        for move in game.possibleMoves(board):
+            childboard = board[:]
+            childboard[move-1] = nextPlayer
+            newstate = {'board': childboard, 'nextPlayer': currentState['nextPlayer']}
+            self.children.append(TNode(self, newstate, move))
