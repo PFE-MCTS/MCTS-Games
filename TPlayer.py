@@ -7,11 +7,11 @@ class Tplayer:
 
 
         '''
-        {'board': [" ", " ", " ", " ", " ", " ", " ", " ", " "], 'nextPlayer' : "X"}
+        {'board': [" ", " ", " ", " ", " ", " ", " ", " ", " "], 'nextPlayer' : "X",'value': '1:9'}
         '''
 
     def Player1Move(self, game: Game, currentGameState):
 
 
         result = game.play(currentGameState)
-        return  {'board': result['board'], 'nextPlayer': "0", 'value': result['value']}
+        return result

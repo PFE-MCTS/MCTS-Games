@@ -74,5 +74,5 @@ class TNode:
         for move in game.possibleMoves(board):
             childboard = board[:]
             childboard[move-1] = nextPlayer
-            newstate = {'board': childboard, 'nextPlayer': currentState['nextPlayer']}
+            newstate = {'board': childboard, 'nextPlayer': currentState['nextPlayer'], 'value': move}
             self.children.append(TNode(self, newstate, move))

@@ -92,7 +92,7 @@ class TicTacToe (Game):
             self.display_state(board)
             self.HasWon(board)
 
-            return {'board': board, 'value': position+1}
+            return {'board': board, 'nextPlayer': "0", 'value': position+1}
         else:
 
             index = self.state.index(str(Coup))
@@ -106,7 +106,7 @@ class TicTacToe (Game):
 
             self.display_state(board)
             self.HasWon(board)
-            return {'board': board,'value': Coup}
+            return {'board': board, 'nextPlayer': "X", 'value': Coup}
 
 
 

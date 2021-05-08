@@ -16,10 +16,9 @@ class Mcts:
         self.rolloutDone = 0
         self.Number_Rollout = number_rollout
         self.PreviousGameNode = None
-        self.CurrentGameNode quoi mettre ici
+        self.CurrentGameNode = None
 
         '''
-        
         GameState : {Board: ["X", "O", "X",
                       " ", "O", "O",
                       " ", " ", " "],
@@ -35,46 +34,9 @@ class Mcts:
         self.root = root
         #Ajoute les premiers fils
         self.root.add_children(game, currentGameState)
+        return self.root
 
-    def ApplyMCTS(self, game: Game, currentNode: TNode):
-
-        iteration = 0
-        while iteration < 50:
-
-            if currentNode.children == []:
-                currentNode.add_children(game, currentNode.currentGameState)
-
-            SelectedNode = self.Select_Node(currentNode)
-
-            if SelectedNode.Visits == 0:
-                Score = self.rollout(game, SelectedNode)
-
-                self.BackPropagation(SelectedNode, Score)
-
-            else:
-                self.expand_Node(game, SelectedNode)
-
-            iteration += 1
-
-
-    #Precondition: CurrentGameNode.currentGameState == lastMCTSState
-    def ComputerPlay(self,game:Game ,lastMCTSState, currentGameNode:TNode):
-
-        # on ajoute le noeud joué par le joueur
-
-        #on fais mcts
-        self.applyMCTS(game,currentGameNode)
-
-        ComputerMove = self.selectMove(currentNode)
-        game.play(2, ComputerMove.value)
-
-        # on ajoute le noued joué par l'ordinateur
-        return {'board': board, 'nextPlayer': "0", 'value': result['value']}
-
-
-
-
-    def select_leaf(self, root: TNode):
+    def select_leaf(self, root: TNode):             # a supprimer apres
         '''
         retourne tous les fils existants
         :return:
@@ -100,7 +62,7 @@ class Mcts:
 
             return MaxNode
         else:
-            print(" selectMove erreur")
+            print(" exception dans selectMove()")
 
 
 
@@ -128,28 +90,28 @@ class Mcts:
 
 
 
-    def find_Node(self, root:TNode, valeur):
+    def find_Node(self, node:TNode, valeur):
 
-        if(root.children != []):
-            for node in root.children:
-                if node.value == valeur:
+        if(node.children != []):
+            for node in node.children:
+                if node.currentGameState['value'] == valeur:
                     return node
-                else:
-                    return False
+
+
         else:
             return False
 
 
 
 
-    def expand_Node(self, moves: Game, node: TNode):
+    def expand_Node(self, moves: Game, node: TNode):  # expension a revoir
         '''
         phase d'expansion de l'arbre de recherche
         induis a lajout de fils (children au noeud en parametres)
  
         '''
         board = node.getBoard()
-        if(node.is_terminal(moves, board) == False):            # expension a revoir
+        if(node.is_terminal(moves, board) == False):
             if node.is_leaf():
                 node.add_children(moves)
 
@@ -241,52 +203,54 @@ class Mcts:
 
             iteration += 1
 
+    '''
+        def ApplyMCTS(self, game: Game, currentNode: TNode):
 
-    def ComputerPlay(self, game: Game, currentNode: TNode):
+        iteration = 0
+        while iteration < 50:
 
-        self.applyMCTS(game, currentNode)
+            if currentNode.children == []:
+                currentNode.add_children(game, currentNode.currentGameState)
 
+            SelectedNode = self.Select_Node(currentNode)
+
+            if SelectedNode.Visits == 0:
+                Score = self.rollout(game, SelectedNode)
+
+                self.BackPropagation(SelectedNode, Score)
+
+            else:
+                self.expand_Node(game, SelectedNode)
+
+            iteration += 1
+
+    '''
+
+    def ComputerPlay(self, game: Game,lastState,currentMctsState ,currentNode: TNode):
+
+        self.CurrentGameNode = self.find_Node(currentNode, currentMctsState['value'])
+        self.applyMCTS(game, self.CurrentGameNode)
+
+        ComputerMove = self.selectMove(self.CurrentGameNode)
+        currentMctsState = game.play(currentMctsState, ComputerMove.currentGameState['value'])
+
+
+        self.CurrentGameNode = self.find_Node(currentNode, currentMctsState['value'])
+
+        return currentMctsState
+
+
+        '''         #Precondition: CurrentGameNode.currentGameState == lastMCTSState
+    def ComputerPlay(self,game:Game ,lastMCTSState, currentGameNode:TNode):
+
+        # on ajoute le noeud joué par le joueur
+
+        #on fais mcts
+        self.applyMCTS(game,currentGameNode)
 
         ComputerMove = self.selectMove(currentNode)
         game.play(2, ComputerMove.value)
 
-
-
-
+        # on ajoute le noued joué par l'ordinateur
+        return {'board': board, 'nextPlayer': "0", 'value': result['value']}
         '''
-        if LastComputerMove == None:
-
-            ActualState = self.find_Node(self.root, LastPlayerMove)
-
-        else:
-
-            ActualState = self.find_Node(self.root, LastPlayerMove)
-            self.find_Node(ActualState, LastComputerMove)
-            
-            #ensuite a travers l'arbre nous devons jouer
-
-        deplacementOrdinateur = self.selectMove(ActualState)
-
-        #return "le noeud quelle va jouer"
-'''
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

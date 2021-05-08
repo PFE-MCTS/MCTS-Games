@@ -19,13 +19,13 @@ class main:
 
     def play(self, game: Game):
 
-                    #declarations
+                #declarations
 
         tictac = TicTacToe()
-        currentGameState = {'board': [" ", " ", " ", " ", " ", " ", " ", " ", " "], 'nextPlayer' : "X", 'LastValuePlayed':None}
+        currentGameState = {'board': [" ", " ", " ", " ", " ", " ", " ", " ", " "], 'nextPlayer' : "X", 'value':None}
         player1 = Tplayer()         #demander au joueur 1 de joueur
         mcts = Mcts(tictac, 1)
-        mcts.initialize(currentGameState)
+        mcts.CurrentGameNode = mcts.initialize(currentGameState)       # créer la racine et les fils de la racine
 
 
         lastMCTSState = currentGameState
