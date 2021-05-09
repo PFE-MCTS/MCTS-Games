@@ -72,19 +72,23 @@ class Mcts:
 
     def Select_Node(self, root: TNode):
         '''
-            phase de selection des noeuds en applicant UCB 
+            phase de selection des noeuds en applicant UCB
+            fonction recursive
         '''
                             # condition si le noeud a un fils is leaf
-        if root.children == []:
-            return root
-        else:
-            UTC = 0
-            MaxNode = None
-            for node in root.children:
-                if (self.UCT(node) > UTC):
-                    UTC = self.UCT(node)
-                    MaxNode = node
-            return self.Select_Node(MaxNode)
+        if root != None:
+            if root.children == []:
+                return root
+            else:
+                UTC = float('-inf')
+                MaxNode = None
+                for node in root.children:
+                    if (self.UCT(node) >= UTC):
+                        UTC = self.UCT(node)
+                        MaxNode = node
+                return self.Select_Node(MaxNode)
+
+
 
 
 
@@ -166,7 +170,8 @@ class Mcts:
         if node.Visits == 0:
             return float('inf')
         else:
-            return (node.Score / node.Visits) + 2 * (math.sqrt(math.log(self.root.Visits)/node.Visits) )
+
+            return (node.Score / node.Visits) + 2 * (math.sqrt(math.log(self.NbrParties)/node.Visits) )
 
 
 
@@ -191,43 +196,24 @@ class Mcts:
     def ApplyMCTS(self,game: Game, currentNode: TNode):
 
         iteration = 0
-        while iteration < 50:
+        while iteration < 500:
+
             if currentNode.children == []:
                 currentNode.add_children(game, currentNode.currentGameState)
 
             SelectedNode = self.Select_Node(currentNode)        # phase de selection
 
+
             if SelectedNode.Visits == 0:
+
                 Score = self.rollout(game, SelectedNode)        # phase de rollout
                 self.BackPropagation(SelectedNode, Score)       #phase de backpropagation
             else:
+
                 self.expand_Node(game, SelectedNode)        #phase d'expension
-
-
+            print(iteration)
             iteration += 1
 
-    '''
-        def ApplyMCTS(self, game: Game, currentNode: TNode):
-
-        iteration = 0
-        while iteration < 50:
-
-            if currentNode.children == []:
-                currentNode.add_children(game, currentNode.currentGameState)
-
-            SelectedNode = self.Select_Node(currentNode)
-
-            if SelectedNode.Visits == 0:
-                Score = self.rollout(game, SelectedNode)
-
-                self.BackPropagation(SelectedNode, Score)
-
-            else:
-                self.expand_Node(game, SelectedNode)
-
-            iteration += 1
-
-    '''
 
     def ComputerPlay(self, game: Game,lastState,currentMctsState ,currentNode: TNode):
 
