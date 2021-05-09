@@ -72,90 +72,64 @@ class TicTacToe (Game):
             self.turn = 1
 
 
-    def play(self, currentGameState, Coup=None):
+    def play(self, currentGameState, Coup=None, Rollout=None):
 
         GameTurn= currentGameState['nextPlayer']
         board = currentGameState['board']
+        if Rollout==None:
+            if (GameTurn == "X"):
+                position = input(" Choissisez une position entre (1 et 9): ")
+                while position not in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
+                    position = input("Position incorrecte, Choissisez une position entre (1 et 9): ")
 
-        if(GameTurn == "X"):
-            position = input(" Choissisez une position entre (1 et 9): ")
-            while position not in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
-                position = input("Position incorrecte, Choissisez une position entre (1 et 9): ")
+                index = self.state.index(str(position))
+                position = int(position) - 1
+                if board[position] != " ":
+                    raise RuntimeError("Mouvement incorrecte")
 
-            index = self.state.index(str(position))
-            position = int(position) - 1
-            if board[position] != " ":
-                raise RuntimeError("Mouvement incorrecte")
+                board[position] = "X"
+                currentGameState['board'] = board
+                self.display_state(board)
+                self.HasWon(board)
 
-            board[position] = "X"
-            currentGameState['board'] = board
-            self.display_state(board)
-            self.HasWon(board)
-
-            return {'board': board, 'nextPlayer': "0", 'value': position+1}
-        else:
-
-            index = self.state.index(str(Coup))
-#            self.state.pop(index)
-            position = int(Coup) - 1
-            if board[position] != " ":
-                raise RuntimeError("Mouvement incorrecte")
-
-            board[position] = "O"
-            currentGameState['board'] = board
-
-            self.display_state(board)
-            self.HasWon(board)
-            return {'board': board, 'nextPlayer': "X", 'value': Coup}
-
-
-
-
-    def simulation(self, board, nextTurn):
-        pass
-
-    '''def play1(self, turn, coup=None):
-
-
-        self.turn = turn
-
-        if coup is None:
-                    #instance de jeu
-            position = input(" Choissisez une position entre (1 et 9): ")
-            while position not in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
-                position = input("Position incorrecte, Choissisez une position entre (1 et 9): ")
-        else:
-           #instance de simulation
-            position = coup
-                                           
-        index = self.state.index(str(position))
-        self.state.pop(index)
-
-        position = int(position) - 1
-
-        if self.board[position] != " ":
-            raise RuntimeError("Mouvement incorrecte")
-
-        if self.turn == 1:
-            self.board[position] = "X"
-        elif self.turn == 2:
-            self.board[position]="O"
-
-        self.display_state()
-        print("Les possibles moves restants :" + str(self.state))
-        self.HasWon()
-
-        if self.winner is None:
-            self.change_player()
-        elif self.winner is not None:
-            if self.winner == 0:
-                print("Match nul " + str(self.winner))
+                return {'board': board, 'nextPlayer': "0", 'value': position + 1}
             else:
-                print("Joueur " + str(self.winner) + " a gagné")
 
-        return position
-'''
-            
+                index = self.state.index(str(Coup))
+                #            self.state.pop(index)
+                position = int(Coup) - 1
+                if board[position] != " ":
+                    raise RuntimeError("Mouvement incorrecte")
+
+                board[position] = "O"
+                currentGameState['board'] = board
+
+                self.display_state(board)
+                self.HasWon(board)
+                return {'board': board, 'nextPlayer': "X", 'value': Coup}
+        else:
+            if (GameTurn == "X"):
+                index = self.state.index(str(Coup))
+                #            self.state.pop(index)
+                position = int(Coup) - 1
+                if board[position] != " ":
+                    raise RuntimeError("Mouvement incorrecte")
+
+                board[position] = "X"
+                currentGameState['board'] = board
+                return {'board': board, 'nextPlayer': "O", 'value': Coup}
+            else:
+
+                index = self.state.index(str(Coup))
+                #            self.state.pop(index)
+                position = int(Coup) - 1
+                if board[position] != " ":
+                    raise RuntimeError("Mouvement incorrecte")
+
+                board[position] = "O"
+                currentGameState['board'] = board
+                return {'board': board, 'nextPlayer': "X", 'value': Coup}
+
 
     def HasWon(self, board = None) -> int:
 
@@ -224,7 +198,7 @@ class TicTacToe (Game):
             if board[0] == board[1] == board[2] != " ":
                 if board[0] == "X":
                     return -1
-                elif self.board[0] == "O":
+                elif board[0] == "O":
                     return +1
             if board[3] == board[4] == board[5] != " ":
                 if board[3] == "X":
@@ -241,7 +215,7 @@ class TicTacToe (Game):
             if board[0] == board[3] == board[6] != " ":
                 if board[0] == "X":
                     return -1
-                elif self.board[0] == "O":
+                elif board[0] == "O":
                     return 1
             if board[1] == board[4] == board[7] != " ":
                 if board[1] == "X":
@@ -268,8 +242,8 @@ class TicTacToe (Game):
 
             if " " not in board:
                 return 0        # match nul
-            else:
-                return None             # demander a aziz de tester surtout le cas ou il ya pas de vainqueur pour le moment
+
+
 
 
 

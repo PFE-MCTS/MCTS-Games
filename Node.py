@@ -15,7 +15,7 @@ class TNode:
         '''CurrentGameState de type : {Board: ["X", "O", "X",
                               " ", "O", "O",
                               " ", " ", " "],
-                     Player: "O"
+                     nextPlayer: "O", 'value':'1'
                 }
         '''
 

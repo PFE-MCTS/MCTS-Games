@@ -27,7 +27,7 @@ class Game(ABC):
 
 
     @abstractmethod
-    def play(self, currentstate, coup=None):
+    def play(self, currentstate, coup=None, Rollout=None):
 
         pass
 

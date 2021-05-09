@@ -1,4 +1,6 @@
+from copy import deepcopy
 import math
+import random
 
 from Node import *
 from TicTacToe import *
@@ -104,16 +106,19 @@ class Mcts:
 
 
 
-    def expand_Node(self, moves: Game, node: TNode):  # expension a revoir
+    def expand_Node(self, game: Game, node: TNode):
         '''
         phase d'expansion de l'arbre de recherche
         induis a lajout de fils (children au noeud en parametres)
  
         '''
-        board = node.getBoard()
-        if(node.is_terminal(moves, board) == False):
+        state = deepcopy(node.currentGameState)
+        board = deepcopy(node.currentGameState['board'])
+        if(node.is_terminal(game, board) == False):
             if node.is_leaf():
-                node.add_children(moves)
+                node.add_children(game, state)
+        else:
+            return None
 
 
 
@@ -135,24 +140,24 @@ class Mcts:
 
 
 
-    def rollout(self, game: Game, leaf: TNode) -> int:              # a revoir
-        
+    def rollout(self, game: Game, leaf: TNode, NumberRollout=1):
         '''
         phase de rollout(simulation)
         le parametre Number_Rollout definis le nombre de simulations a faire
-        appel de la fonction select_leaf()
         appel a la fonction de haswon() de la classe game
         le resultat du rollout est un score entier
- 
         '''
-        while game.winner == None:
-            if game.turn == 1:
-                game.play(2, random.choice(game.possibleMoves()))
-                game.turn = 2
-            else:
-                game.play(1, random.choice(game.possibleMoves()))
-                game.turn = 1
-        return game.Score
+        Scorefinal =0
+        for i in range(NumberRollout):
+            state = deepcopy(leaf.currentGameState)
+            board = deepcopy(leaf.currentGameState['board'])
+            while game.HasWon(board) == None:
+
+                move = random.choice(game.possibleMoves(board))
+                state = game.play(state, move, 1)
+                board = state['board'][:]
+            Scorefinal += game.HasWon(board)
+        return Scorefinal
 
 
     def UCT(self, node: TNode) -> float:
@@ -171,34 +176,32 @@ class Mcts:
         phase de backpropagation du score et du nombre de visites
  
         '''
-        while rolloutnode.parent is not None:
+        if rolloutnode.parent == None:
             rolloutnode.Visits += 1
             rolloutnode.Score += score
-            rolloutnode = rolloutnode.parent
+            self.Score += score
+            self.NbrParties += 1
+        else:
+            rolloutnode.Visits += 1
+            rolloutnode.Score += score
+            self.BackPropagation(rolloutnode.parent, score)
 
-        self.root.Visits += 1
-        self.Score += score
-        self.root.Score += score
 
 
     def ApplyMCTS(self,game: Game, currentNode: TNode):
 
         iteration = 0
         while iteration < 50:
-
             if currentNode.children == []:
-                currentNode.add_children(game)
+                currentNode.add_children(game, currentNode.currentGameState)
 
-            SelectedNode = self.Select_Node(currentNode)
-
+            SelectedNode = self.Select_Node(currentNode)        # phase de selection
 
             if SelectedNode.Visits == 0:
-                Score = self.rollout(game, SelectedNode)
-
-                self.BackPropagation(SelectedNode, Score)
-
+                Score = self.rollout(game, SelectedNode)        # phase de rollout
+                self.BackPropagation(SelectedNode, Score)       #phase de backpropagation
             else:
-                self.expand_Node(game, SelectedNode)
+                self.expand_Node(game, SelectedNode)        #phase d'expension
 
 
             iteration += 1
