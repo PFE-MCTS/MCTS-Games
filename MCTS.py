@@ -200,10 +200,6 @@ class Mcts:
 
     def ComputerPlay(self, game: Game,currentMctsState ,currentNode: TNode):
 
-        #print(currentNode.currentGameState['board'])
-        print("children",currentNode.children)
-        print("dict",currentNode.currentGameState)
-        #print(game.possibleMoves())
         self.CurrentGameNode = self.find_Node(currentNode, currentMctsState['value'])
 
         self.ApplyMCTS(game, self.CurrentGameNode)
