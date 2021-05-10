@@ -33,10 +33,12 @@ class Mcts:
         # creer la racine
         board = currentGameState['board'][:]
         root = TNode(None, board, None)
+        root.currentGameState = deepcopy(currentGameState)
         self.root = root
         #Ajoute les premiers fils
         self.root.add_children(game, currentGameState)
-        return self.root
+        self.CurrentGameNode = deepcopy(root)
+        return self.CurrentGameNode
 
     def select_leaf(self, root: TNode):             # a supprimer apres
         '''
@@ -54,12 +56,12 @@ class Mcts:
 
 
     def selectMove(self,actualNode: TNode):
-        valeurUCT = 0
+        NbrVisites = 0
         MaxNode = None
         if actualNode.children != []:
             for node in actualNode.children:
-                if valeurUCT <= self.UCT(node):
-                    valeurUCT = self.UCT(node)
+                if NbrVisites <= node.Visits:
+                    NbrVisites = deepcopy(node.Visits)
                     MaxNode = node
 
             return MaxNode
@@ -127,23 +129,6 @@ class Mcts:
 
 
 
-    def get_ActualState(self, node: TNode):             # a revoir ou supprimer
-        '''
-        fonction servant a donner l'état du jeu  a partir d'un noeud afin de faire un rollout
-        prends en paramettre le noeud,
-        :return: une liste de valeurs des noeuds
-        '''
-        ActualState=[]
-
-        while node.parent is not None:
-            ActualState.append(node.value)
-            node = node.parent
-
-        return ActualState
-
-
-
-
     def rollout(self, game: Game, leaf: TNode, NumberRollout=1):
         '''
         phase de rollout(simulation)
@@ -198,48 +183,35 @@ class Mcts:
         iteration = 0
         while iteration < 500:
 
+            #print(currentNode)
             if currentNode.children == []:
                 currentNode.add_children(game, currentNode.currentGameState)
 
             SelectedNode = self.Select_Node(currentNode)        # phase de selection
-
-
             if SelectedNode.Visits == 0:
-
                 Score = self.rollout(game, SelectedNode)        # phase de rollout
                 self.BackPropagation(SelectedNode, Score)       #phase de backpropagation
-            else:
 
+            else:
                 self.expand_Node(game, SelectedNode)        #phase d'expension
-            print(iteration)
+
             iteration += 1
 
 
-    def ComputerPlay(self, game: Game,lastState,currentMctsState ,currentNode: TNode):
+    def ComputerPlay(self, game: Game,currentMctsState ,currentNode: TNode):
 
+        #print(currentNode.currentGameState['board'])
+        print("children",currentNode.children)
+        print("dict",currentNode.currentGameState)
+        #print(game.possibleMoves())
         self.CurrentGameNode = self.find_Node(currentNode, currentMctsState['value'])
-        self.applyMCTS(game, self.CurrentGameNode)
+
+        self.ApplyMCTS(game, self.CurrentGameNode)
 
         ComputerMove = self.selectMove(self.CurrentGameNode)
         currentMctsState = game.play(currentMctsState, ComputerMove.currentGameState['value'])
 
 
-        self.CurrentGameNode = self.find_Node(currentNode, currentMctsState['value'])
+        self.CurrentGameNode = self.find_Node(self.CurrentGameNode, currentMctsState['value'])
 
         return currentMctsState
-
-
-        '''         #Precondition: CurrentGameNode.currentGameState == lastMCTSState
-    def ComputerPlay(self,game:Game ,lastMCTSState, currentGameNode:TNode):
-
-        # on ajoute le noeud joué par le joueur
-
-        #on fais mcts
-        self.applyMCTS(game,currentGameNode)
-
-        ComputerMove = self.selectMove(currentNode)
-        game.play(2, ComputerMove.value)
-
-        # on ajoute le noued joué par l'ordinateur
-        return {'board': board, 'nextPlayer': "0", 'value': result['value']}
-        '''

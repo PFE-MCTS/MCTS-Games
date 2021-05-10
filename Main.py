@@ -22,24 +22,29 @@ class main:
                 #declarations
 
         tictac = TicTacToe()
-        currentGameState = {'board': [" ", " ", " ", " ", " ", " ", " ", " ", " "], 'nextPlayer' : "X", 'value':None}
-        player1 = Tplayer()         #demander au joueur 1 de joueur
+        currentGameState = {'board': [" ", " ", " ", " ", " ", " ", " ", " ", " "], 'nextPlayer' : "X", 'value': None}
+        player1 = Tplayer()
         mcts = Mcts(tictac, 1)
-        mcts.CurrentGameNode = mcts.initialize(currentGameState)       # créer la racine et les fils de la racine
+        mcts.CurrentGameNode = mcts.initialize(tictac, currentGameState)       # créer la racine et les fils de la racine
 
 
         lastMCTSState = currentGameState
 
-        while tictac.winner == None:
+        while tictac.winner== None:
             # jeux joueur 1
 
           currentGameState = player1.Player1Move(game, currentGameState)
 
-            # jeux ordinateur
-          currentGameState = mcts.ComputerPlay(game, lastMCTSState, currentGameState)
-          lastMCTSState = currentGameState
+          tictac.HasWon(currentGameState['board'])
 
+          if(tictac.winner==None):
+              # jeux ordinateur
+              print("Node", mcts.CurrentGameNode.value)
+              currentGameState = mcts.ComputerPlay(game, currentGameState, mcts.CurrentGameNode)
+              lastMCTSState = deepcopy(currentGameState)
+              tictac.HasWon(currentGameState['board'])
 
+        print("the winner is the player", tictac.winner)
 
 
 
@@ -48,7 +53,9 @@ class main:
 
 
 main= main()
-TicTacToe = TicTacToe()
-main.testerTicTacToe(TicTacToe)
+tictac = TicTacToe()
+main.play(tictac)
+
+
 
 

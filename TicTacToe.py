@@ -74,9 +74,9 @@ class TicTacToe (Game):
 
     def play(self, currentGameState, Coup=None, Rollout=None):
 
-        GameTurn= currentGameState['nextPlayer']
+        GameTurn = currentGameState['nextPlayer']
         board = currentGameState['board']
-        if Rollout==None:
+        if Rollout == None:
             if (GameTurn == "X"):
                 position = input(" Choissisez une position entre (1 et 9): ")
                 while position not in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
@@ -117,6 +117,7 @@ class TicTacToe (Game):
 
                 board[position] = "X"
                 currentGameState['board'] = board
+                self.HasWon(board)
                 return {'board': board, 'nextPlayer': "O", 'value': Coup}
             else:
 
@@ -128,7 +129,10 @@ class TicTacToe (Game):
 
                 board[position] = "O"
                 currentGameState['board'] = board
+                self.HasWon(board)
                 return {'board': board, 'nextPlayer': "X", 'value': Coup}
+
+
 
 
     def HasWon(self, board = None) -> int:
@@ -197,50 +201,68 @@ class TicTacToe (Game):
             # rows
             if board[0] == board[1] == board[2] != " ":
                 if board[0] == "X":
+                    self.winner = 1
                     return -1
                 elif board[0] == "O":
+                    self.winner = 2
                     return +1
             if board[3] == board[4] == board[5] != " ":
                 if board[3] == "X":
+                    self.winner = 1
                     return -1
                 elif board[3] == "O":
+                    self.winner = 2
                     return +1
             if board[6] == board[7] == board[8] != " ":
                 if board[6] == "X":
+                    self.winner = 1
                     return -1
                 elif board[6] == "O":
+                    self.winner = 2
                     return +1
 
             # columns
             if board[0] == board[3] == board[6] != " ":
                 if board[0] == "X":
+                    self.winner = 1
                     return -1
                 elif board[0] == "O":
+                    self.winner = 2
                     return 1
             if board[1] == board[4] == board[7] != " ":
                 if board[1] == "X":
+                    self.winner = 1
+                    self.winner = 2
                     return -1
                 elif board[1] == "O":
+                    self.winner = 2
                     return 1
             if board[2] == board[5] == board[8] != " ":
                 if board[2] == "X":
+                    self.winner = 1
                     return -1
                 elif board[2] == "O":
+                    self.winner = 2
                     return 1
 
             # diagonals
             if board[0] == board[4] == board[8] != " ":
                 if board[0] == "X":
+                    self.winner = 1
                     return -1
                 elif board[0] == "O":
+                    self.winner = 2
                     return +1
             if board[2] == board[4] == board[6] != " ":
                 if board[2] == "X":
+                    self.winner = 1
                     return -1
                 elif board[2] == "O":
+                    self.winner = 2
                     return +1
 
             if " " not in board:
+                self.winner = 0
                 return 0        # match nul
 
 
