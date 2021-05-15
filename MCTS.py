@@ -3,8 +3,6 @@ import math
 import random
 import pymongo
 from pymongo import MongoClient
-
-
 from Node import *
 from TicTacToe import *
         
@@ -42,20 +40,6 @@ class Mcts:
         self.root.add_children(game, currentGameState)
         self.CurrentGameNode = deepcopy(root)
         return self.CurrentGameNode
-
-    def select_leaf(self, root: TNode):             # a supprimer apres
-        '''
-        retourne tous les fils existants
-        :return:
-        '''
-        if root is None:
-            return []
-        if root.is_leaf():
-            self.LeafList.append(root)
-        else:
-            for child in root.children:
-                self.select_leaf(child)
-
 
 
     def selectMove(self,actualNode: TNode):

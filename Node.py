@@ -41,18 +41,6 @@ class TNode:
 
 
 
-    def getNodeDepth(self):
-        count = 0
-        while self.parent != None:
-            count += 1
-            self = self.parent
-
-        return count
-
-
-
-
-
     
     def is_terminal(self, game:Game, board) -> bool:               # a revoir
         ''' Méthode qui verrifie si le noeud est terminal
@@ -78,3 +66,11 @@ class TNode:
             childboard[move-1] = currentState['nextPlayer']
             newstate = {'board': childboard, 'nextPlayer': nextPlayer, 'value': move}
             self.children.append(TNode(self, newstate, move))
+
+
+'''node= TNode(None,{'Board': ["X", "O", "X",
+                              " ", "O", "O",
+                              " ", " ", " "],
+                     'nextPlayer': "O", 'value':'1'
+                },1)
+'''
