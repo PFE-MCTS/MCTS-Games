@@ -1,4 +1,6 @@
 import random
+import pymongo
+from pymongo import MongoClient
 
 from Game import *
 class TNode:

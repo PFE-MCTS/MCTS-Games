@@ -1,6 +1,9 @@
 from copy import deepcopy
 import math
 import random
+import pymongo
+from pymongo import MongoClient
+
 
 from Node import *
 from TicTacToe import *
@@ -181,7 +184,7 @@ class Mcts:
     def ApplyMCTS(self,game: Game, currentNode: TNode):
 
         iteration = 0
-        while iteration < 500:
+        while iteration < 1000:
 
             #print(currentNode)
             if currentNode.children == []:
