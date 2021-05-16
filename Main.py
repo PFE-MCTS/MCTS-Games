@@ -1,8 +1,9 @@
+import database
 from Node import *
 from TicTacToe import *
 from TPlayer import *
 from MCTS import *
-
+from database import *
 
 
 class main:
@@ -39,12 +40,15 @@ class main:
 
           if(tictac.winner==None):
               # jeux ordinateur
-              print("Node", mcts.CurrentGameNode.value)
               currentGameState = mcts.ComputerPlay(game, currentGameState, mcts.CurrentGameNode)
               lastMCTSState = deepcopy(currentGameState)
               tictac.HasWon(currentGameState['board'])
 
         print("the winner is the player", tictac.winner)
+        data = connection("tictactoe")
+        deleteTree(data)
+        updateTreesearch(data, mcts.root)
+
 
 
 

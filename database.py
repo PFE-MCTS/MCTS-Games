@@ -37,34 +37,36 @@ def getTreesearch():
     '''
     pass
 
-def updateTreesearch(database, root:TNode):
+def deleteTree(data):                                           # suppression de l'arbre precedent
+    collection = data['tree']
+    collection.delete_many({})
+
+def updateTreesearch(database,root:TNode):
     '''
     fonction qui met a jour l'arbre de recherche dans la base de donnée apres la fin d'une partie
     '''
-                # suppression de l'arbre precedent
-    data = connection(database)
-    collection = data['tree']
-    collection.delete_many({})
                 # création d'un nouvel arbre
 
-                # Ajout de la racine
-    database.tree.insert_one(
-        {
-            "_id": "root",
-            "parent": None,
-            "children": [],
-            "visits": root.Visits,
-            "score": root.Score,
-            " value": root.value,
-            "gameState": root.currentGameState
-        }
-    )
-    rootID = "root"
-    if root.children !=[]:
+    if (root.parent == None):
+        # Ajout de la racine
+        database.tree.insert_one(
+            {
+                "_id": root.id,
+                "parent": None,
+                "children": [],
+                "visits": root.Visits,
+                "score": root.Score,
+                " value": root.value,
+                "gameState": root.currentGameState
+            }
+        )
+
+    if root.children != []:
         for node in root.children:
             database.tree.insert_one(
                 {
-                    "parent": rootID,
+                    "_id": node.id,
+                    "parent": root.id,
                     "children": [],
                     "visits": node.Visits,
                     "score": node.Score,
@@ -72,8 +74,39 @@ def updateTreesearch(database, root:TNode):
                     "gameState": node.currentGameState
                 }
             )
+                        # on ajoute le fils chez le pére
+            database.tree.update_one({'_id': root.id}, {'$push': {'children': node.id}})
+                        # appel recurssif
+            updateTreesearch(database, node)
 
 
+
+
+currentGameState = {'board': [" ", " ", " ", " ", " ", " ", " ", " ", " "], 'nextPlayer' : "X", 'value': None}
+'''
+root= TNode(None,currentGameState)
+child1= TNode(root,currentGameState,1)
+child2= TNode(root,currentGameState,2)
+child3= TNode(root,currentGameState,3)
+child4= TNode(child1,currentGameState,4)
+child5= TNode(child2,currentGameState,5)
+child6= TNode(child3,currentGameState,6)
+child7=TNode(child1,currentGameState,7)
+
+root.children.append(child1)
+root.children.append(child2)
+root.children.append(child3)
+child1.children.append(child7)
+child1.children.append(child4)
+child2.children.append(child5)
+child3.children.append(child6)
+
+
+
+database = connection("tictactoe")
+deleteTree(database)
+updateTreesearch(database,root)
+'''
 
 
 

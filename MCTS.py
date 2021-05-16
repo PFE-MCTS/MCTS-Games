@@ -38,7 +38,7 @@ class Mcts:
         self.root = root
         #Ajoute les premiers fils
         self.root.add_children(game, currentGameState)
-        self.CurrentGameNode = deepcopy(root)
+        self.CurrentGameNode = root
         return self.CurrentGameNode
 
 
@@ -65,6 +65,7 @@ class Mcts:
             fonction recursive
         '''
                             # condition si le noeud a un fils is leaf
+
         if root != None:
             if root.children == []:
                 return root
@@ -153,6 +154,7 @@ class Mcts:
         phase de backpropagation du score et du nombre de visites
  
         '''
+
         if rolloutnode.parent == None:
             rolloutnode.Visits += 1
             rolloutnode.Score += score
@@ -170,13 +172,13 @@ class Mcts:
         iteration = 0
         while iteration < 1000:
 
-            #print(currentNode)
             if currentNode.children == []:
                 currentNode.add_children(game, currentNode.currentGameState)
 
             SelectedNode = self.Select_Node(currentNode)        # phase de selection
             if SelectedNode.Visits == 0:
                 Score = self.rollout(game, SelectedNode)        # phase de rollout
+
                 self.BackPropagation(SelectedNode, Score)       #phase de backpropagation
 
             else:

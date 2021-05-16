@@ -4,8 +4,11 @@ from pymongo import MongoClient
 
 from Game import *
 class TNode:
- 
+
+    ID = 0
     def __init__(self, parent: object, GameState, value=None ):
+        self.id = TNode.ID+1
+        TNode.ID += 1
         self.parent = parent
         self.children = []
         self.Visits = 0
@@ -32,14 +35,6 @@ class TNode:
             return True
         else:
             return False
-
-    '''def getBoard(self, simulation: Game, boardTemplate):
-        
-        méthode donnant l'état du jeu a travers un noeud donné
-        :return: un dictionnaire {"board"=[], "NextPlayer" }
-        '''
-
-
 
     
     def is_terminal(self, game:Game, board) -> bool:               # a revoir
