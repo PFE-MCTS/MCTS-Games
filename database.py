@@ -29,13 +29,22 @@ def connection(database, localhost="localhost", port=27017):
     print("connected successfuly to the database:", client)
 
 
-def getTreesearch():
+def getTreesearch(database):
     '''
         fonction qui charge en memoire l'arbre de recherche d'un jeu  sous forme d'objets
 
     :return: la racine de l'arbre ou False si l'arbre n'existe pas
     '''
-    pass
+
+    database = connection(database)
+    collection = database['tree']
+                            # first get the root of the tree
+    root = collection.find_one({"_id":1})
+    if root == None:
+        return False
+    else:
+        pass
+
 
 def deleteTree(data):                                           # suppression de l'arbre precedent
     collection = data['tree']
@@ -81,9 +90,9 @@ def updateTreesearch(database,root:TNode):
 
 
 
-
-currentGameState = {'board': [" ", " ", " ", " ", " ", " ", " ", " ", " "], 'nextPlayer' : "X", 'value': None}
 '''
+currentGameState = {'board': [" ", " ", " ", " ", " ", " ", " ", " ", " "], 'nextPlayer' : "X", 'value': None}
+
 root= TNode(None,currentGameState)
 child1= TNode(root,currentGameState,1)
 child2= TNode(root,currentGameState,2)
@@ -102,31 +111,7 @@ child2.children.append(child5)
 child3.children.append(child6)
 
 
-
 database = connection("tictactoe")
 deleteTree(database)
 updateTreesearch(database,root)
 '''
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
