@@ -2,8 +2,10 @@ from copy import deepcopy
 import pymongo
 from pymongo import MongoClient
 from Node import *
+from pymongo.errors import ConnectionFailure
 
 client = MongoClient()
+
 
 '''
         self.parent = parent
@@ -23,11 +25,13 @@ client = MongoClient()
 '''
 
 def connection(database, localhost="localhost", port=27017):
-    client = MongoClient(host=localhost, port=port)
-    db = client[database]
-    return db
-    print("connected successfuly to the database:", client)
-
+    try:
+        client = MongoClient(host=localhost, port=port)
+        db = client[database]
+        return db
+        print("connected successfuly to the database:", client)
+    except ConnectionFailure:
+        return False
 
 def getNode(id, database):
     collection = database['tree']
@@ -37,7 +41,7 @@ def getNode(id, database):
 def setNodeProperty(id,parent: TNode, database):
     if id > 0:
         dbnode = getNode(id, database)
-        node = TNode(parent, deepcopy(dbnode['gameState']), dbnode[' value'])
+        node = TNode(parent, deepcopy(dbnode['gameState']), dbnode['value'])
         node.id = dbnode['_id']
         node.Visits = dbnode['visits']
         node.Score = dbnode['score']
@@ -108,7 +112,7 @@ def updateTreesearch(database,root:TNode):
                     "children": [],
                     "visits": node.Visits,
                     "score": node.Score,
-                    " value": node.value,
+                    "value": node.value,
                     "gameState": node.currentGameState
                 }
             )
@@ -139,15 +143,15 @@ child1.children.append(child4)
 child2.children.append(child5)
 child3.children.append(child6)
 '''
-
+'''
 database = connection("tictactoe")
 
 root = getRoot(database)
 getTreesearch(database, root)
 
-print(root.children)
+#print(root.children)
 
-#deleteTree(database)
+deleteTree(database)
 #updateTreesearch(database,root)
-
+'''
 

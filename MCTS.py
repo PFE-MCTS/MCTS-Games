@@ -5,6 +5,7 @@ import pymongo
 from pymongo import MongoClient
 from Node import *
 from TicTacToe import *
+from database import *
         
 class Mcts:
 
@@ -30,16 +31,31 @@ class Mcts:
         '''
 
 
-    def initialize(self, game:Game, currentGameState):
+    def initialize(self, game:Game, currentGameState, database):
         # creer la racine
-        board = currentGameState['board'][:]
-        root = TNode(None, board, None)
-        root.currentGameState = deepcopy(currentGameState)
-        self.root = root
-        #Ajoute les premiers fils
-        self.root.add_children(game, currentGameState)
-        self.CurrentGameNode = root
-        return self.CurrentGameNode
+
+        data = connection(database)
+        collection = data['tree']
+        NbrDocument= collection.find().count()
+        if data != False and NbrDocument > 0:                   # si la base de donnée reponds
+            root = getRoot(data)
+            getTreesearch(data, root)
+            self.root = root
+            self.CurrentGameNode = root
+            return self.CurrentGameNode
+
+        else:                               # si la base de donnée ne reponds pas
+            board = currentGameState['board'][:]
+            root = TNode(None, board, None)
+            root.currentGameState = deepcopy(currentGameState)
+            self.root = root
+            # Ajoute les premiers fils
+            self.root.add_children(game, currentGameState)
+            self.CurrentGameNode = root
+            return self.CurrentGameNode
+
+
+
 
 
     def selectMove(self,actualNode: TNode):

@@ -18,7 +18,7 @@ class main:
 
     #ticTac: Objet jeux, contient les méthodes "nextMoves"  # possible moves
 
-    def play(self, game: Game):
+    def play(self, game: Game, database):
 
                 #declarations
 
@@ -26,7 +26,7 @@ class main:
         currentGameState = {'board': [" ", " ", " ", " ", " ", " ", " ", " ", " "], 'nextPlayer' : "X", 'value': None}
         player1 = Tplayer()
         mcts = Mcts(tictac, 1)
-        mcts.CurrentGameNode = mcts.initialize(tictac, currentGameState)       # créer la racine et les fils de la racine
+        mcts.CurrentGameNode = mcts.initialize(tictac, currentGameState, database)       # créer la racine et les fils de la racine
 
 
         lastMCTSState = currentGameState
@@ -58,7 +58,7 @@ class main:
 
 main= main()
 tictac = TicTacToe()
-main.play(tictac)
+main.play(tictac, "tictactoe")
 
 
 
