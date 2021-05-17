@@ -29,21 +29,50 @@ def connection(database, localhost="localhost", port=27017):
     print("connected successfuly to the database:", client)
 
 
-def getTreesearch(database):
+def getNode(id, database):
+    collection = database['tree']
+    node = collection.find_one({"_id": id})
+    return node
+
+def setNodeProperty(id,parent: TNode, database):
+    if id > 0:
+        dbnode = getNode(id, database)
+        node = TNode(parent, deepcopy(dbnode['gameState']), dbnode[' value'])
+        node.id = dbnode['_id']
+        node.Visits = dbnode['visits']
+        node.Score = dbnode['score']
+        return node
+    else:
+        return print("erreur dans la réception des donnés")
+
+
+def getRoot(database):
+    root = setNodeProperty(1, None, database)
+    return root
+
+
+
+
+def getTreesearch(database, root: TNode):
     '''
         fonction qui charge en memoire l'arbre de recherche d'un jeu  sous forme d'objets
 
     :return: la racine de l'arbre ou False si l'arbre n'existe pas
     '''
+    dbnode = getNode(root.id, database)
+    if dbnode['children'] != []:
+        for id in dbnode['children']:
+            node = setNodeProperty(id, root, database)
+            root.children.append(node)
+            getTreesearch(database, node)
 
-    database = connection(database)
-    collection = database['tree']
-                            # first get the root of the tree
-    root = collection.find_one({"_id":1})
-    if root == None:
-        return False
-    else:
-        pass
+
+
+
+
+
+
+
 
 
 def deleteTree(data):                                           # suppression de l'arbre precedent
@@ -65,7 +94,7 @@ def updateTreesearch(database,root:TNode):
                 "children": [],
                 "visits": root.Visits,
                 "score": root.Score,
-                " value": root.value,
+                "value": root.value,
                 "gameState": root.currentGameState
             }
         )
@@ -93,7 +122,7 @@ def updateTreesearch(database,root:TNode):
 '''
 currentGameState = {'board': [" ", " ", " ", " ", " ", " ", " ", " ", " "], 'nextPlayer' : "X", 'value': None}
 
-root= TNode(None,currentGameState)
+
 child1= TNode(root,currentGameState,1)
 child2= TNode(root,currentGameState,2)
 child3= TNode(root,currentGameState,3)
@@ -109,9 +138,16 @@ child1.children.append(child7)
 child1.children.append(child4)
 child2.children.append(child5)
 child3.children.append(child6)
-
+'''
 
 database = connection("tictactoe")
-deleteTree(database)
-updateTreesearch(database,root)
-'''
+
+root = getRoot(database)
+getTreesearch(database, root)
+
+print(root.children)
+
+#deleteTree(database)
+#updateTreesearch(database,root)
+
+
