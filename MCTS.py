@@ -41,6 +41,8 @@ class Mcts:
             root = getRoot(data)
             getTreesearch(data, root)
             self.root = root
+            self.NbrParties = root.Visits
+            self.Score = root.Score
             self.CurrentGameNode = root
             return self.CurrentGameNode
 
@@ -159,7 +161,6 @@ class Mcts:
         if node.Visits == 0:
             return float('inf')
         else:
-
             return (node.Score / node.Visits) + 2 * (math.sqrt(math.log(self.NbrParties)/node.Visits) )
 
 

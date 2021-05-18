@@ -18,7 +18,7 @@ class main:
 
     #ticTac: Objet jeux, contient les méthodes "nextMoves"  # possible moves
 
-    def play(self, game: Game, database):
+    def play(self, game, database):
 
                 #declarations
 

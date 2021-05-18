@@ -32,7 +32,7 @@ class Game(ABC):
         pass
 
     @abstractmethod
-    def HasWon(self)-> int:
+    def HasWon(self,board = None)-> int:
 
        pass
 
