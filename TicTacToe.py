@@ -21,25 +21,7 @@ class TicTacToe (Game):
                       " ", " ", " "],
                       Qui va jouer ? O
         }
-
-        self.board ={["X", "O", "X",
-                      " ", "O", "O",
-                      " ", " ", "O"],
-                      Qui va jouer ? X
-        }
-
-        self.board ={["X", "O", "X",
-                      "X", "O", "O",
-                      " ", " ", "O"],
-                      Qui va jouer ? O
-        }
-
-
-        self.board ={["X", "O", "X",
-                      "X", "O", "O",
-                      " ", "O", "O"],
-                      Qui va jouer ? Terminé
-        }
+        
             '''
 
     def possibleMoves(self, board=None):
