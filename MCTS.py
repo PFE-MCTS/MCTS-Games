@@ -149,7 +149,8 @@ class Mcts:
             while game.HasWon(board) == None:
 
                 move = random.choice(game.possibleMoves(board))
-                state = game.play(state, move, 1)
+                Rollout = 1
+                state = game.play(state, move, Rollout)
                 board = state['board'][:]
             Scorefinal += game.HasWon(board)
         return Scorefinal

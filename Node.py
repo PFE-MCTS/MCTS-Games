@@ -63,6 +63,19 @@ class TNode:
             self.children.append(TNode(self, newstate, move))
 
 
+    def add_children1(self, game: Game,currentState, value):
+        board = currentState['board']
+        if currentState['nextPlayer'] == game.player1:
+            nextPlayer = game.player2
+        else:
+            nextPlayer = game.player1
+        for move in game.possibleMoves(board):
+            childboard = board[:]
+            childboard[move-1] = currentState['nextPlayer']
+            newstate = {'board': childboard, 'nextPlayer': nextPlayer, 'value': move}
+            self.children.append(TNode(self, newstate, move))
+
+
 '''node= TNode(None,{'Board': ["X", "O", "X",
                               " ", "O", "O",
                               " ", " ", " "],

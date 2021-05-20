@@ -49,7 +49,8 @@ class main:
         deleteTree(data)
         updateTreesearch(data, mcts.root)
 
-
+    def chess_play(self,game):
+        pass
 
 
 

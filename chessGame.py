@@ -6,8 +6,8 @@ class chessGame (Game):
 
     def __init__(self,state=None):
         self.turn = 1
-        self.player1 = "BLACK"
-        self.player2 = "WHITE"
+        self.player1 = "BLACK"                  # Ordinateur
+        self.player2 = "WHITE"                  # joueur
         self.winner = None
         self.state = state  # état du jeu ( les cases restantes)
         self.Score = 0
@@ -22,8 +22,8 @@ class chessGame (Game):
         q= reine
         k=rois
         
-        self.board ={
         
+         CurrentGameState de type : {Board:  
         r n b q k b n r
         p p p p p p p p
         . . . . . . . .
@@ -31,10 +31,10 @@ class chessGame (Game):
         . . . . . . . .
         . . . . . . . .
         P P P P P P P P
-        R N B Q K B N R
-
+        R N B Q K B N R,
+                     nextPlayer: " Black", 'value':''
+                }
         
-        }
             '''
 
     def possibleMoves(self, board=None):
@@ -62,12 +62,53 @@ class chessGame (Game):
 
 
     def play(self, currentGameState, Coup=None, Rollout=None):
-        pass
+        GameTurn = currentGameState['nextPlayer']
+        board = currentGameState['board']
+        if Rollout == None:
+            if (GameTurn == "Black"):                                                   # tour du joueur
+
+                # ici   interface !!!!
+
+                position = 1
+                board[position] = "X"
+                currentGameState['board'] = board
+                #self.display_state(board)           # interface
+                self.HasWon(board)
+
+                return {'board': board, 'nextPlayer': "0", 'value': position + 1}
+            else:                                                                       # tour de l'ordinateur
+
+                board.push(Coup)
+                next_player = self.Nextplayer(board)
+
+                #self.display_state(board)              # interface
+
+                self.HasWon(board)
+                return {'board': board, 'nextPlayer': next_player, 'value': Coup}
+
+        else:                                                                           # rollout
+            print("dans le rollout")
+            board = currentGameState['board']
+            board.push(Coup)
+            next_player = self.Nextplayer(board)
+            return {'board': board, 'nextPlayer': next_player, 'value': Coup}
+
+
+    def Nextplayer(self, board):
+        '''
+
+        :param board:
+        afin davoir le prochain a jouer
+        :return:  "black" ou "White"
+        '''
+        if board.turn == chess.BLACK:
+            return "BLACK"
+        else:
+            return "WHITE"
 
 
 
-
-    def HasWon(self, board = None):                  # a revoir pour indiquer le vrai gagnant
+    def HasWon(self, board=None):                  # a revoir pour indiquer le vrai gagnant
         if board == None:
             resultat = self.board.outcome()
             if resultat == None:
