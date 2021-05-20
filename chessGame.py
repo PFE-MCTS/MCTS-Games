@@ -87,7 +87,6 @@ class chessGame (Game):
                 return {'board': board, 'nextPlayer': next_player, 'value': Coup}
 
         else:                                                                           # rollout
-            print("dans le rollout")
             board = currentGameState['board']
             board.push(Coup)
             next_player = self.Nextplayer(board)

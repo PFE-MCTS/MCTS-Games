@@ -151,7 +151,8 @@ class Mcts:
                 move = random.choice(game.possibleMoves(board))
                 Rollout = 1
                 state = game.play(state, move, Rollout)
-                board = state['board'][:]
+                board = deepcopy(state['board'])
+                print(board)
             Scorefinal += game.HasWon(board)
         return Scorefinal
 
