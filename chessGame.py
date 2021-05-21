@@ -1,5 +1,6 @@
 from Game import *
 import chess
+from copy import deepcopy
 class chessGame (Game):
 
 
@@ -60,6 +61,13 @@ class chessGame (Game):
     def change_player(self):
         pass
 
+
+    def UpdateBoard(self, move, state, nextPlayer):
+        board = deepcopy(state['board'])
+        childboard = deepcopy(board)
+        childboard.push(move)
+        newstate = {'board': childboard, 'nextPlayer': nextPlayer, 'value': move}
+        return newstate
 
     def play(self, currentGameState, Coup=None, Rollout=None):
         GameTurn = currentGameState['nextPlayer']

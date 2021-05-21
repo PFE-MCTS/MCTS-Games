@@ -47,7 +47,7 @@ class Mcts:
             return self.CurrentGameNode
 
         else:                               # si la base de donnée ne reponds pas
-            board = currentGameState['board'][:]
+            board = deepcopy(currentGameState['board'])
             root = TNode(None, board, None)
             root.currentGameState = deepcopy(currentGameState)
             self.root = root
@@ -105,7 +105,8 @@ class Mcts:
 
 
     def find_Node(self, node:TNode, valeur):
-
+        print("find node , node:",node)
+        print("find node , node.children:", node.children)
         if(node.children != []):
             for node in node.children:
                 if node.currentGameState['value'] == valeur:
@@ -113,6 +114,8 @@ class Mcts:
 
 
         else:
+            print("find node , node:", node)
+            print("find node , node.children:", node.children)
             return False
 
 
@@ -152,7 +155,6 @@ class Mcts:
                 Rollout = 1
                 state = game.play(state, move, Rollout)
                 board = deepcopy(state['board'])
-                print(board)
             Scorefinal += game.HasWon(board)
         return Scorefinal
 
@@ -190,7 +192,6 @@ class Mcts:
 
         iteration = 0
         while iteration < 1000:
-
             if currentNode.children == []:
                 currentNode.add_children(game, currentNode.currentGameState)
 

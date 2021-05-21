@@ -1,4 +1,5 @@
 from Game import *
+from copy import deepcopy
 class TicTacToe (Game):
 
 
@@ -38,6 +39,14 @@ class TicTacToe (Game):
                 if board[i] ==" ":
                     possibleMove.append(i+1)
             return possibleMove
+
+
+    def UpdateBoard(self, move, state, nextPlayer):
+        board = state['board']
+        childboard = deepcopy(board)
+        childboard[move - 1] = state['nextPlayer']
+        newstate = {'board': childboard, 'nextPlayer': nextPlayer, 'value': move}
+        return newstate
 
 
 

@@ -24,7 +24,9 @@ class Game(ABC):
     def change_player(self):
         pass
 
-
+    @abstractmethod
+    def UpdateBoard(self, move, state, nextPlayer):
+        pass
 
     @abstractmethod
     def play(self, currentstate, coup=None, Rollout=None):
