@@ -105,8 +105,8 @@ class Mcts:
 
 
     def find_Node(self, node:TNode, valeur):
-        print("find node , node:",node)
-        print("find node , node.children:", node.children)
+        '''print("find node , node:",node)
+        print("find node , node.children:", node.children)'''
         if(node.children != []):
             for node in node.children:
                 if node.currentGameState['value'] == valeur:
@@ -188,10 +188,11 @@ class Mcts:
 
 
 
-    def ApplyMCTS(self,game: Game, currentNode: TNode):
+    def ApplyMCTS(self,game: Game, currentNode: TNode, iterations=1000):
 
         iteration = 0
-        while iteration < 1000:
+        while iteration < iterations:
+            print(iteration)
             if currentNode.children == []:
                 currentNode.add_children(game, currentNode.currentGameState)
 
@@ -208,10 +209,14 @@ class Mcts:
 
 
     def ComputerPlay(self, game: Game,currentMctsState ,currentNode: TNode):
+        print("the current mcts state",currentMctsState,"\n")
+        print("the current node",currentNode,"\n")
 
         self.CurrentGameNode = self.find_Node(currentNode, currentMctsState['value'])
+        print("the node",self.CurrentGameNode)
 
         self.ApplyMCTS(game, self.CurrentGameNode)
+        print("after Apply mcts")
 
         ComputerMove = self.selectMove(self.CurrentGameNode)
         currentMctsState = game.play(currentMctsState, ComputerMove.currentGameState['value'])

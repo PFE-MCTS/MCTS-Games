@@ -56,7 +56,7 @@ class chessGame (Game):
 
 
     def display_state(self,board):          # y ajouter une interface
-        pass
+        print(board)
 
     def change_player(self):
         pass
@@ -73,24 +73,22 @@ class chessGame (Game):
         GameTurn = currentGameState['nextPlayer']
         board = currentGameState['board']
         if Rollout == None:
-            if (GameTurn == "Black"):                                                   # tour du joueur
-
-                # ici   interface !!!!
-
-                position = 1
-                board[position] = "X"
+            if (GameTurn == "WHITE"):                                                   # tour du joueur
+                print("on es ici", GameTurn)
+                moves = self.possibleMoves(board)
+                position = input(" Choissisez une position: ")
+                position = int(position) - 1
+                board.push(moves[position])
                 currentGameState['board'] = board
-                #self.display_state(board)           # interface
+                self.display_state(board)
                 self.HasWon(board)
+                return {'board': board, 'nextPlayer': "BLACK", 'value': moves[position]}
 
-                return {'board': board, 'nextPlayer': "0", 'value': position + 1}
             else:                                                                       # tour de l'ordinateur
-
                 board.push(Coup)
                 next_player = self.Nextplayer(board)
-
-                #self.display_state(board)              # interface
-
+                print(next_player)
+                self.display_state(board)              # interface
                 self.HasWon(board)
                 return {'board': board, 'nextPlayer': next_player, 'value': Coup}
 
