@@ -150,7 +150,6 @@ class Mcts:
             state = deepcopy(leaf.currentGameState)
             board = deepcopy(leaf.currentGameState['board'])
             while game.HasWon(board) == None:
-
                 move = random.choice(game.possibleMoves(board))
                 Rollout = 1
                 state = game.play(state, move, Rollout)
@@ -188,11 +187,10 @@ class Mcts:
 
 
 
-    def ApplyMCTS(self,game: Game, currentNode: TNode, iterations=1000):
+    def ApplyMCTS(self,game: Game, currentNode: TNode, NbrIterations=1000):
 
         iteration = 0
-        while iteration < iterations:
-            print(iteration)
+        while iteration < NbrIterations:
             if currentNode.children == []:
                 currentNode.add_children(game, currentNode.currentGameState)
 
@@ -204,7 +202,6 @@ class Mcts:
 
             else:
                 self.expand_Node(game, SelectedNode)        #phase d'expension
-
             iteration += 1
 
 
@@ -216,7 +213,6 @@ class Mcts:
         print("the node",self.CurrentGameNode)
 
         self.ApplyMCTS(game, self.CurrentGameNode)
-        print("after Apply mcts")
 
         ComputerMove = self.selectMove(self.CurrentGameNode)
         currentMctsState = game.play(currentMctsState, ComputerMove.currentGameState['value'])

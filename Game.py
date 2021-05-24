@@ -35,7 +35,6 @@ class Game(ABC):
 
     @abstractmethod
     def HasWon(self,board = None)-> int:
-
        pass
 
         

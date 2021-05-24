@@ -63,7 +63,7 @@ class TicTacToe (Game):
             self.turn = 1
 
 
-    def play(self, currentGameState, Coup=None, Rollout=None):
+    '''def play(self, currentGameState, Coup=None, Rollout=None):
 
         GameTurn = currentGameState['nextPlayer']
         board = currentGameState['board']
@@ -123,6 +123,63 @@ class TicTacToe (Game):
                 self.HasWon(board)
                 return {'board': board, 'nextPlayer': "X", 'value': Coup}
 
+'''
+
+    def play(self, currentGameState, Coup=None, Rollout=None):
+
+        GameTurn = currentGameState['nextPlayer']
+        board = currentGameState['board']
+        if Rollout == None:
+            if (GameTurn == "X"):                                               # tour du joueur
+                index = self.state.index(str(Coup))
+                position = int(Coup) - 1
+                if board[position] != " ":
+                    raise RuntimeError("Mouvement incorrecte")
+
+                board[position] = "X"
+                currentGameState['board'] = board
+
+                self.display_state(board)
+                self.HasWon(board)
+                return {'board': board, 'nextPlayer': "O", 'value': Coup}
+            else:                                                                               # tour de l'ordinateur
+
+                index = self.state.index(str(Coup))
+                #            self.state.pop(index)
+                position = int(Coup) - 1
+                if board[position] != " ":
+                    raise RuntimeError("Mouvement incorrecte")
+
+                board[position] = "O"
+                currentGameState['board'] = board
+
+                self.display_state(board)
+                self.HasWon(board)
+                return {'board': board, 'nextPlayer': "X", 'value': Coup}
+        else:
+            if (GameTurn == "X"):
+                index = self.state.index(str(Coup))
+                #            self.state.pop(index)
+                position = int(Coup) - 1
+                if board[position] != " ":
+                    raise RuntimeError("Mouvement incorrecte")
+
+                board[position] = "X"
+                currentGameState['board'] = board
+                self.HasWon(board)
+                return {'board': board, 'nextPlayer': "O", 'value': Coup}
+            else:
+
+                index = self.state.index(str(Coup))
+                #            self.state.pop(index)
+                position = int(Coup) - 1
+                if board[position] != " ":
+                    raise RuntimeError("Mouvement incorrecte")
+
+                board[position] = "O"
+                currentGameState['board'] = board
+                self.HasWon(board)
+                return {'board': board, 'nextPlayer': "X", 'value': Coup}
 
 
 
@@ -223,7 +280,6 @@ class TicTacToe (Game):
             if board[1] == board[4] == board[7] != " ":
                 if board[1] == "X":
                     self.winner = 1
-                    self.winner = 2
                     return -1
                 elif board[1] == "O":
                     self.winner = 2
@@ -252,7 +308,7 @@ class TicTacToe (Game):
                     self.winner = 2
                     return +1
 
-            if " " not in board:
+            if " " not in board :                #and self. winner is none
                 self.winner = 0
                 return 0        # match nul
 

@@ -15,3 +15,8 @@ class Tplayer:
 
         result = game.play(currentGameState)
         return result
+
+    def Playerinterface(self, game: Game, currentGameState, coup):
+        result = game.play(currentGameState, coup)
+
+        return result
