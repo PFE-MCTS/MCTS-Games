@@ -1,9 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
-import database
 from Node import *
 from TicTacToe import *
-from chessGame import *
 from TPlayer import *
 from MCTS import *
 from database import *
@@ -14,7 +12,6 @@ currentGameState = {'board': [" ", " ", " ", " ", " ", " ", " ", " ", " "], 'nex
 player1 = Tplayer()
 mcts = Mcts(tictac, 1)
 mcts.CurrentGameNode = mcts.initialize(tictac, currentGameState,"tictactoe")  # créer la racine et les fils de la racine
-
 
 def button(frame):          #Function to define a button
     b= Button(frame,padx=1,bg="papaya whip",width=3,text="   ",font=('arial',60,'bold'),relief="sunken",bd=10)
@@ -29,7 +26,11 @@ def change_a():             #Function to change the operand for the next player
             break
 
 
-def reset():                #Resets the game
+def reset():
+    mcts.CurrentGameNode = mcts.root
+    global currentGameState
+    currentGameState = deepcopy(mcts.root.currentGameState)
+    #Resets the game
     global a
     for i in range(3):
         for j in range(3):

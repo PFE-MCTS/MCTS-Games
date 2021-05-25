@@ -164,7 +164,7 @@ class Mcts:
         if node.Visits == 0:
             return float('inf')
         else:
-            return (node.Score / node.Visits) + 2 * (math.sqrt(math.log(self.NbrParties)/node.Visits) )
+            return (node.Score / node.Visits) + 1.41 * (math.sqrt(math.log(self.NbrParties)/node.Visits) )      # 1.41 || 2
 
 
 
