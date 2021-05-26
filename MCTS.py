@@ -187,7 +187,7 @@ class Mcts:
 
 
 
-    def ApplyMCTS(self,game: Game, currentNode: TNode, NbrIterations=1000):
+    def ApplyMCTS(self,game: Game, currentNode: TNode, NbrIterations=100):
 
         iteration = 0
         while iteration < NbrIterations:

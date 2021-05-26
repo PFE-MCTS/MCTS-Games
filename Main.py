@@ -123,17 +123,17 @@ class main:
 
 main= main()
 
-# jeu tic tac toe
+'''# jeu tic tac toe
 tictac = TicTacToe()
 main.play(tictac, "tictactoe")
-
+'''
 
 
 # jeu chess
-'''
+
 jeu = chessGame()
 main.chess_play(jeu, "chess")
-'''
+
 
 
 
