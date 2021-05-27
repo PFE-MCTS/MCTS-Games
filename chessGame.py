@@ -69,7 +69,7 @@ class chessGame (Game):
         newstate = {'board': childboard, 'nextPlayer': nextPlayer, 'value': move}
         return newstate
 
-    def play(self, currentGameState, Coup=None, Rollout=None):
+    '''def play(self, currentGameState, Coup=None, Rollout=None):
         GameTurn = currentGameState['nextPlayer']
         board = currentGameState['board']
         if Rollout == None:
@@ -96,8 +96,32 @@ class chessGame (Game):
             board = currentGameState['board']
             board.push(Coup)
             next_player = self.Nextplayer(board)
-            return {'board': board, 'nextPlayer': next_player, 'value': Coup}
+            return {'board': board, 'nextPlayer': next_player, 'value': Coup}'''
 
+    def play(self, currentGameState, Coup=None, Rollout=None):
+        GameTurn = currentGameState['nextPlayer']
+        board = currentGameState['board']
+        if Rollout == None:
+            if (GameTurn == "WHITE"):  # tour du joueur
+
+                board.push(Coup)
+                # next_player = self.Nextplayer(board)
+                self.display_state(board)  # interface
+                self.HasWon(board)
+                return {'board': board, 'nextPlayer': "BLACK", 'value': Coup}
+
+            else:  # tour de l'ordinateur
+                board.push(Coup)
+                # next_player = self.Nextplayer(board)
+                self.display_state(board)  # interface
+                self.HasWon(board)
+                return {'board': board, 'nextPlayer': "WHITE", 'value': Coup}
+
+        else:  # rollout
+            board = currentGameState['board']
+            board.push(Coup)
+            next_player = self.Nextplayer(board)
+            return {'board': board, 'nextPlayer': next_player, 'value': Coup}
 
     def Nextplayer(self, board):
         '''

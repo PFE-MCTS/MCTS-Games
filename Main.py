@@ -92,7 +92,7 @@ class main:
         currentGameState = {'board': deepcopy(chess.board), 'nextPlayer': "WHITE", 'value': None}
         player1 = Tplayer()
         mcts = Mcts(chess, 1)
-        mcts.CurrentGameNode = mcts.initialize(chess, currentGameState,database)  # créer la racine et les fils de la racine
+        mcts.CurrentGameNode = mcts.initialize(chess, currentGameState, database)  # créer la racine et les fils de la racine
         lastMCTSState = currentGameState
 
         while chess.winner == None:
