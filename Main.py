@@ -119,20 +119,77 @@ class main:
 
 
 
+    def tictacTraining(self, Nbrpartie:int):
+        tictac = TicTacToe()
+        currentGameState = {'board': [" ", " ", " ", " ", " ", " ", " ", " ", " "], 'nextPlayer': "X", 'value': None}
+        mcts = Mcts(tictac, 1)
+        mcts.CurrentGameNode = mcts.initialize(tictac, currentGameState,
+                                               "tictactoe")  # créer la racine et les fils de la racine
+
+        for i in range(Nbrpartie):
+            while tictac.HasWon(currentGameState['board']) == None:
+                # jeux joueur 1
+
+               # premier joueur MCTS
+
+                currentGameState= mcts.ComputerVsComputer(tictac, currentGameState)
+
+                if (tictac.HasWon(currentGameState['board']) == None):
+
+                    currentGameState = mcts.ComputerVsComputer(tictac, currentGameState)
+                    lastMCTSState = deepcopy(currentGameState)
+                    tictac.HasWon(currentGameState['board'])
+
+            print("the winner is the player", tictac.HasWon(currentGameState['board']))
+            print("\n the final board", currentGameState['board'])
+            currentGameState = {'board': [" ", " ", " ", " ", " ", " ", " ", " ", " "], 'nextPlayer': "X",
+                                'value': None}
+            mcts.CurrentGameNode = mcts.root
+            print("root.visits", mcts.root.Visits)
+            for node in mcts.root.children:
+                print("children value", node.value)
+                print("UTC of child :", mcts.UCT(node) )
+                print("children visits", node.Visits)
+                print("children Score", node.Score)
+
+
+
+
+
+        '''data = connection("tictactoe")
+        deleteTree(data)
+        updateTreesearch(data, mcts.root)'''
+
+
+
+    def chessTraining(self):
+        pass
+
+
 
 
 main= main()
 
+
+tictac = TicTacToe()
+main.tictacTraining(5)
+
+
+
+
+
+
 '''# jeu tic tac toe
 tictac = TicTacToe()
 main.play(tictac, "tictactoe")
-'''
+
 
 
 # jeu chess
 
 jeu = chessGame()
 main.chess_play(jeu, "chess")
+'''
 
 
 

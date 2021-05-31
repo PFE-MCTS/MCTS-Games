@@ -253,21 +253,21 @@ class TicTacToe (Game):
                     return -1
                 elif board[0] == "O":
                     self.winner = 2
-                    return +1
+                    return 1
             if board[3] == board[4] == board[5] != " ":
                 if board[3] == "X":
                     self.winner = 1
                     return -1
                 elif board[3] == "O":
                     self.winner = 2
-                    return +1
+                    return 1
             if board[6] == board[7] == board[8] != " ":
                 if board[6] == "X":
                     self.winner = 1
                     return -1
                 elif board[6] == "O":
                     self.winner = 2
-                    return +1
+                    return 1
 
             # columns
             if board[0] == board[3] == board[6] != " ":
@@ -299,16 +299,16 @@ class TicTacToe (Game):
                     return -1
                 elif board[0] == "O":
                     self.winner = 2
-                    return +1
+                    return 1
             if board[2] == board[4] == board[6] != " ":
                 if board[2] == "X":
                     self.winner = 1
                     return -1
                 elif board[2] == "O":
                     self.winner = 2
-                    return +1
+                    return 1
 
-            if " " not in board :                #and self. winner is none
+            if " " not in board:                #and self. winner is none
                 self.winner = 0
                 return 0        # match nul
 

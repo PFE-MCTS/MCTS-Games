@@ -111,12 +111,12 @@ class Mcts:
             for node in node.children:
                 if node.currentGameState['value'] == valeur:
                     return node
-
-
+            print("on es hors de la boucle")
+            return node
         else:
-            print("find node , node:", node)
+            print("find node , node:", node.currentGameState['board'])
             print("find node , node.children:", node.children)
-            return False
+            return node
 
 
 
@@ -187,7 +187,7 @@ class Mcts:
 
 
 
-    def ApplyMCTS(self,game: Game, currentNode: TNode, NbrIterations=100):
+    def ApplyMCTS(self,game: Game, currentNode: TNode, NbrIterations=50):
 
         iteration = 0
         while iteration < NbrIterations:
@@ -196,7 +196,7 @@ class Mcts:
 
             SelectedNode = self.Select_Node(currentNode)        # phase de selection
             if SelectedNode.Visits == 0:
-                Score = self.rollout(game, SelectedNode)        # phase de rollout
+                Score = self.rollout(game, SelectedNode, 2)        # phase de rollout
 
                 self.BackPropagation(SelectedNode, Score)       #phase de backpropagation
 
@@ -206,17 +206,26 @@ class Mcts:
 
 
     def ComputerPlay(self, game: Game,currentMctsState ,currentNode: TNode):
-        print("the current mcts state",currentMctsState,"\n")
-        print("the current node",currentNode,"\n")
-
+             #condition si on es deja dans le noeud dans find node
         self.CurrentGameNode = self.find_Node(currentNode, currentMctsState['value'])
-        print("the node",self.CurrentGameNode)
-
         self.ApplyMCTS(game, self.CurrentGameNode)
 
         ComputerMove = self.selectMove(self.CurrentGameNode)
         currentMctsState = game.play(currentMctsState, ComputerMove.currentGameState['value'])
 
+        self.CurrentGameNode = self.find_Node(self.CurrentGameNode, currentMctsState['value'])
+
+        return currentMctsState
+
+    def ComputerVsComputer(self, game: Game,currentMctsState ):
+             #condition si on es deja dans le noeud dans find node
+        #self.CurrentGameNode = self.find_Node(currentNode, currentMctsState['value'])
+
+        self.ApplyMCTS(game, self.CurrentGameNode)
+
+        ComputerMove = self.selectMove(self.CurrentGameNode)
+
+        currentMctsState = game.play(currentMctsState, ComputerMove.currentGameState['value'])
 
         self.CurrentGameNode = self.find_Node(self.CurrentGameNode, currentMctsState['value'])
 

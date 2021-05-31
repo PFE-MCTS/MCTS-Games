@@ -141,21 +141,21 @@ class chessGame (Game):
         if board == None:
             resultat = self.board.outcome()
             if resultat == None:
-                return None                 # pas encore de vainqueur                   (A REVOIR)
+                return None                 # pas encore de vainqueur
             elif resultat.winner == True:  # white won
                 self.winner = 1
                 return +1
             elif resultat.winner == False:      #  black won
                 self.winner = 2
                 return -1  # black won
-            else:
+            elif resultat ==None:
                 self.winner = 0
                 return 0                        # draw
 
         else:
             resultat = board.outcome()
             if resultat == None:
-                return None  # pas encore de vainqueur                   (A REVOIR)
+                return None  # pas encore de vainqueur
             elif resultat.winner == True:  # white won
                 self.winner = 1
                 return +1

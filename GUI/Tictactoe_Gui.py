@@ -34,9 +34,9 @@ def reset():
     global a
     for i in range(3):
         for j in range(3):
-                b[i][j]["text"]=" "
-                b[i][j]["state"]=NORMAL
-    a= 'X'
+                b[i][j]["text"] = " "
+                b[i][j]["state"] = NORMAL
+    a = 'X'
 
 
 

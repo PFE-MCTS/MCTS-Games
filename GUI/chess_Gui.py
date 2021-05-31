@@ -3,7 +3,7 @@ import sys
 import chess
 from PyQt5.QtCore import pyqtSlot, Qt
 from PyQt5.QtSvg import QSvgWidget
-from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtWidgets import QApplication, QWidget, QMessageBox
 
 import database
 from Node import *
@@ -14,9 +14,8 @@ from database import *
 
 class MainWindow(QWidget):
     """
-    Create a surface for the chessboard.
+    creation de l'interface principale
     """
-
     jeu = chessGame()
     currentGameState = {'board': deepcopy(jeu.board), 'nextPlayer': "WHITE", 'value': None}
     player1 = Tplayer()
@@ -25,9 +24,7 @@ class MainWindow(QWidget):
     lastMCTSState = currentGameState
 
     def __init__(self):
-        """
-        Initialize the chessboard.
-        """
+
         super().__init__()
 
         self.setWindowTitle("Jeu d'echecs Master 2 ADSI")
@@ -51,11 +48,7 @@ class MainWindow(QWidget):
     @pyqtSlot(QWidget)
     def mousePressEvent(self, event):
         """
-        Handle left mouse clicks and enable moving chess pieces by
-        clicking on a chess piece and then the target square.
-
-        Moves must be made according to the rules of chess because
-        illegal moves are suppressed.
+        méthode qui s'invoque lors du clique sur une case de l'échiquier afin de faire une deplacement
         """
         if event.x() <= self.boardSize and event.y() <= self.boardSize:
             if event.buttons() == Qt.LeftButton:
@@ -68,7 +61,7 @@ class MainWindow(QWidget):
                     change =False
                     if self.pieceToMove[0] is not None:
                         move = chess.Move.from_uci("{}{}".format(self.pieceToMove[1], coordinates))
-                        if move in self.board.legal_moves:
+                        if move in self.board.legal_moves:                                              # si le mouvement est permis
                             self.board.push(move)
                             change = True
                             # joueur 1
@@ -77,8 +70,6 @@ class MainWindow(QWidget):
                             board = deepcopy(MainWindow.currentGameState['board'])
                             self.board = deepcopy(board)
                             self.drawBoard()
-
-
                         piece = None
                         coordinates = None
                     self.pieceToMove = [piece, coordinates]
@@ -91,6 +82,7 @@ class MainWindow(QWidget):
 
     def computerPlay(self, change):
         if change == True:
+
             # ici demander a l'ordinateur de jouer .
             MainWindow.currentGameState = MainWindow.mcts.ComputerPlay(MainWindow.jeu,
                                                                        MainWindow.currentGameState,
@@ -100,16 +92,29 @@ class MainWindow(QWidget):
             self.board = deepcopy(board)
             return self.board
 
-        print("computer play\n")
 
     def drawBoard(self):
         """
-        Draw a chessboard with the starting position and then redraw
-        it for every new move.
+        fonction qui dessine l'echiquier et qui l'actualise
         """
         self.boardSvg = self.board._repr_svg_().encode("UTF-8")
         self.drawBoardSvg = self.widgetSvg.load(self.boardSvg)
         return self.drawBoardSvg
+
+
+    def haswon(self, board):
+        """
+        fonction qui indique si il ya un vainqueur ou si il ya match null
+
+        """
+        if MainWindow.jeu.HasWon(board) == 1:
+            QMessageBox.about(self, "Partie terminée", " You lost ! ")
+        elif MainWindow.MainWindow.jeu.HasWon(board) == -1:
+            QMessageBox.about(self, "Partie terminée", " You won !! ")
+        elif MainWindow.MainWindow.jeu.HasWon(board) == None:
+            return None
+        else:
+            QMessageBox.about(self, "Partie terminée", " Its a draw ")
 
 
 
