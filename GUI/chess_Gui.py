@@ -75,10 +75,12 @@ class MainWindow(QWidget):
                     self.pieceToMove = [piece, coordinates]
                     self.drawBoard()
 
+                    if(self.haswon(self.board)== None):
+                        self.computerPlay(change, NBrollout=1, NBiteration=55, c=2)
+                        self.drawBoard()
+                        print("this is the last line")
 
-                    self.computerPlay(change,NBrollout=2,NBiteration=50, c= 2)
-                    self.drawBoard()
-                    print("this is the last line")
+
 
     def computerPlay(self, change, NBrollout:int, NBiteration:int,c):
         if change == True:
@@ -109,12 +111,21 @@ class MainWindow(QWidget):
         """
         if MainWindow.jeu.HasWon(board) == 1:
             QMessageBox.about(self, "Partie terminée", " You lost ! ")
-        elif MainWindow.MainWindow.jeu.HasWon(board) == -1:
+            data = connection("chess")
+            deleteTree(data)
+            updateTreesearch(data, MainWindow.mcts.root)
+        elif MainWindow.jeu.HasWon(board) == -1:
             QMessageBox.about(self, "Partie terminée", " You won !! ")
-        elif MainWindow.MainWindow.jeu.HasWon(board) == None:
+            data = connection("chess")
+            deleteTree(data)
+            updateTreesearch(data, MainWindow.mcts.root)
+        elif MainWindow.jeu.HasWon(board) == None:
             return None
         else:
             QMessageBox.about(self, "Partie terminée", " Its a draw ")
+            data = connection("chess")
+            deleteTree(data)
+            updateTreesearch(data, MainWindow.mcts.root)
 
 
 
