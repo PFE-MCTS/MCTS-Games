@@ -76,17 +76,17 @@ class MainWindow(QWidget):
                     self.drawBoard()
 
 
-                    self.computerPlay(change)
+                    self.computerPlay(change,NBrollout=2,NBiteration=50, c= 2)
                     self.drawBoard()
                     print("this is the last line")
 
-    def computerPlay(self, change):
+    def computerPlay(self, change, NBrollout:int, NBiteration:int,c):
         if change == True:
 
             # ici demander a l'ordinateur de jouer .
             MainWindow.currentGameState = MainWindow.mcts.ComputerPlay(MainWindow.jeu,
                                                                        MainWindow.currentGameState,
-                                                                       MainWindow.mcts.CurrentGameNode)
+                                                                       MainWindow.mcts.CurrentGameNode, NBrollout,NBiteration,c)
             MainWindow.lastMCTSState = deepcopy(MainWindow.currentGameState)
             board = deepcopy(MainWindow.currentGameState['board'])
             self.board = deepcopy(board)

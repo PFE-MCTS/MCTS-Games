@@ -11,7 +11,7 @@ tictac = TicTacToe()
 currentGameState = {'board': [" ", " ", " ", " ", " ", " ", " ", " ", " "], 'nextPlayer': "X", 'value': None}
 player1 = Tplayer()
 mcts = Mcts(tictac, 1)
-mcts.CurrentGameNode = mcts.initialize(tictac, currentGameState,"tictactoe")  # créer la racine et les fils de la racine
+mcts.CurrentGameNode = mcts.initialize(tictac, currentGameState, "tictactoe")  # créer la racine et les fils de la racine
 
 def button(frame):          #Function to define a button
     b= Button(frame,padx=1,bg="papaya whip",width=3,text="   ",font=('arial',60,'bold'),relief="sunken",bd=10)
@@ -139,7 +139,7 @@ def click(row, col, currentGameState):
 
         if(tictac.HasWon(currentGameState['board']) == None):
             label.config(text="O's Chance")
-            currentGameState = mcts.ComputerPlay(tictac, currentGameState, mcts.CurrentGameNode)
+            currentGameState = mcts.ComputerPlay(tictac, currentGameState, mcts.CurrentGameNode, NBrollout=10, NbIteration=1000, c=1.41)
             lastMCTSState = deepcopy(currentGameState)
             result = getCoupIndex(currentGameState['value'])
             i = result['row']
