@@ -61,6 +61,11 @@ class Mcts:
 
 
     def selectMove(self,actualNode: TNode):
+        '''
+        fonction qui selectionne le prochain deplacement de l'ordinateur, a travers le nombre de visites maximal
+        :param actualNode: le noeud de l'état actuel
+        :return: le noeud selectionné du deplacment
+        '''
         NbrVisites = 0
         MaxNode = None
         if actualNode.children != []:
@@ -74,6 +79,24 @@ class Mcts:
             print(" exception dans selectMove()")
 
 
+
+    def selectMoveTuned(self,actualNode: TNode):
+        MaxNode = None
+        if actualNode.children != []:
+            numberValues= len(actualNode.children)
+            if numberValues <= 3:
+                print("list inferieure a 3")
+                MaxNode = random.choice(actualNode.children)
+            else:
+                print("list superieure a 3")
+                sortedList = sorted(actualNode.children, key=lambda x: x.Visits, reverse=True)
+                #actualNode.children.sort(key=lambda x: x.Visits, reverse=True)
+                bestChilds = sortedList[:3]
+                MaxNode = random.choice(bestChilds)
+
+            return MaxNode
+        else:
+            print(" exception dans selectMove()")
 
 
 
@@ -217,13 +240,13 @@ class Mcts:
 
         return currentMctsState
 
-    def ComputerVsComputer(self, game: Game,currentMctsState ):
+    def ComputerVsComputer(self, game: Game,currentMctsState, NbrIterations=1000,Nbrollout=10,c=1.41 ):
              #condition si on es deja dans le noeud dans find node
         #self.CurrentGameNode = self.find_Node(currentNode, currentMctsState['value'])
 
-        self.ApplyMCTS(game, self.CurrentGameNode)
+        self.ApplyMCTS(game, self.CurrentGameNode, NbrIterations, Nbrollout, c)
 
-        ComputerMove = self.selectMove(self.CurrentGameNode)
+        ComputerMove = self.selectMoveTuned(self.CurrentGameNode)
 
         currentMctsState = game.play(currentMctsState, ComputerMove.currentGameState['value'])
 

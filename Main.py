@@ -147,10 +147,9 @@ class main:
             mcts.CurrentGameNode = mcts.root
             print("root.visits", mcts.root.Visits)
             for node in mcts.root.children:
-                print("children value", node.value)
-                print("UTC of child :", mcts.UCT(node) )
+                '''print("children value", node.value)
                 print("children visits", node.Visits)
-                print("children Score", node.Score)
+                print("children Score", node.Score)'''
 
 
 
@@ -172,7 +171,7 @@ main= main()
 
 
 tictac = TicTacToe()
-main.tictacTraining(5)
+main.tictacTraining(50)
 
 
 

@@ -65,18 +65,20 @@ class MainWindow(QWidget):
                             self.board.push(move)
                             change = True
                             # joueur 1
-
                             MainWindow.currentGameState = MainWindow.player1.Playerinterface(MainWindow.jeu, MainWindow.currentGameState, move)
+
                             board = deepcopy(MainWindow.currentGameState['board'])
                             self.board = deepcopy(board)
                             self.drawBoard()
+                            self.update()
+                            QApplication.processEvents()
                         piece = None
                         coordinates = None
                     self.pieceToMove = [piece, coordinates]
                     self.drawBoard()
 
                     if(self.haswon(self.board)== None):
-                        self.computerPlay(change, NBrollout=1, NBiteration=55, c=2)
+                        self.computerPlay(change, NBrollout=2, NBiteration=70, c=2)
                         self.drawBoard()
                         print("this is the last line")
 
