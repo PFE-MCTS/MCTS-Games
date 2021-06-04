@@ -12,7 +12,7 @@ class chessGame (Game):
         self.winner = None
         self.state = state  # état du jeu ( les cases restantes)
         self.Score = 0
-        self.board = chess.Board()
+        self.board = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
 
         '''
@@ -38,6 +38,7 @@ class chessGame (Game):
         
             '''
 
+
     def possibleMoves(self, board=None):
         '''
         fonction a utiliser lors du rollout, prends en parametre l'etat actuel du noeud ainsi que le noeud
@@ -45,28 +46,29 @@ class chessGame (Game):
         '''
 
         if board == None:
-            moves = list(self.board.legal_moves)
+            ChessInstance = chess.Board(self.board)
+            moves = list(ChessInstance.legal_moves)
+            moves = [str(i) for i in moves]
             return moves
         else:
-            moves = list(board.legal_moves)
+            ChessInstance = chess.Board(board)
+            moves = list(ChessInstance.legal_moves)
+            moves = [str(i) for i in moves]
             return moves
-
-
-
-
-
-    def display_state(self,board):          # y ajouter une interface
-        print(board)
 
     def change_player(self):
         pass
 
+    def display_state(self,board):          # y ajouter une interface
+        print(chess.Board(board))
+
+
 
     def UpdateBoard(self, move, state, nextPlayer):
-        board = deepcopy(state['board'])
-        childboard = deepcopy(board)
-        childboard.push(move)
-        newstate = {'board': childboard, 'nextPlayer': nextPlayer, 'value': move}
+        ChessInstance = chess.Board(state['board'])
+        childboard = deepcopy(ChessInstance)
+        childboard.push(chess.Move.from_uci(move))
+        newstate = {'board': childboard.fen(), 'nextPlayer': nextPlayer, 'value': move}
         return newstate
 
     '''def play(self, currentGameState, Coup=None, Rollout=None):
@@ -100,28 +102,27 @@ class chessGame (Game):
 
     def play(self, currentGameState, Coup=None, Rollout=None):
         GameTurn = currentGameState['nextPlayer']
-        board = currentGameState['board']
+        chessInstance = chess.Board(currentGameState['board'])
         if Rollout == None:
             if (GameTurn == "WHITE"):  # tour du joueur
 
-                board.push(Coup)
+                chessInstance.push(chess.Move.from_uci(Coup))
                 # next_player = self.Nextplayer(board)
-                self.display_state(board)  # interface
-                self.HasWon(board)
-                return {'board': board, 'nextPlayer': "BLACK", 'value': Coup}
+                self.display_state(chessInstance.fen())  # interface
+                self.HasWon(chessInstance.fen())
+                return {'board': chessInstance.fen(), 'nextPlayer': "BLACK", 'value': Coup}
 
             else:  # tour de l'ordinateur
-                board.push(Coup)
-                # next_player = self.Nextplayer(board)
-                self.display_state(board)  # interface
-                self.HasWon(board)
-                return {'board': board, 'nextPlayer': "WHITE", 'value': Coup}
+                chessInstance.push(chess.Move.from_uci(Coup))
+                self.display_state(chessInstance.fen())  # interface
+                self.HasWon(chessInstance.fen())
+                return {'board': chessInstance.fen(), 'nextPlayer': "WHITE", 'value': Coup}
 
         else:  # rollout
-            board = currentGameState['board']
-            board.push(Coup)
-            next_player = self.Nextplayer(board)
-            return {'board': board, 'nextPlayer': next_player, 'value': Coup}
+            chessInstance = chess.Board(currentGameState['board'])
+            chessInstance.push(chess.Move.from_uci(Coup))
+            next_player = self.Nextplayer(chessInstance.fen())
+            return {'board': chessInstance.fen(), 'nextPlayer': next_player, 'value': Coup}
 
     def Nextplayer(self, board):
         '''
@@ -130,7 +131,8 @@ class chessGame (Game):
         afin davoir le prochain a jouer
         :return:  "black" ou "White"
         '''
-        if board.turn == chess.BLACK:
+        chessInstance = chess.Board(board)
+        if chessInstance.turn == chess.BLACK:
             return "BLACK"
         else:
             return "WHITE"
@@ -139,7 +141,8 @@ class chessGame (Game):
 
     def HasWon(self, board=None):                  # a revoir pour indiquer le vrai gagnant
         if board == None:
-            resultat = self.board.outcome()
+            chessInstance = chess.Board(self.board)
+            resultat = chessInstance.outcome()
             if resultat == None:
                 return None                 # pas encore de vainqueur
             elif resultat.winner == True:  # white won
@@ -153,7 +156,8 @@ class chessGame (Game):
                 return 0                        # draw
 
         else:
-            resultat = board.outcome()
+            chessInstance = chess.Board(board)
+            resultat = chessInstance.outcome()
             if resultat == None:
                 return None  # pas encore de vainqueur
             elif resultat.winner == True:  # white won

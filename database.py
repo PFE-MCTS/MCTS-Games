@@ -28,8 +28,8 @@ def connection(database, localhost="localhost", port=27017):
     try:
         client = MongoClient(host=localhost, port=port)
         db = client[database]
-        return db
         print("connected successfuly to the database:", client)
+        return db
     except ConnectionFailure:
         return False
 
@@ -120,38 +120,3 @@ def updateTreesearch(database,root:TNode):
             database.tree.update_one({'_id': root.id}, {'$push': {'children': node.id}})
                         # appel recurssif
             updateTreesearch(database, node)
-
-
-
-'''
-currentGameState = {'board': [" ", " ", " ", " ", " ", " ", " ", " ", " "], 'nextPlayer' : "X", 'value': None}
-
-
-child1= TNode(root,currentGameState,1)
-child2= TNode(root,currentGameState,2)
-child3= TNode(root,currentGameState,3)
-child4= TNode(child1,currentGameState,4)
-child5= TNode(child2,currentGameState,5)
-child6= TNode(child3,currentGameState,6)
-child7=TNode(child1,currentGameState,7)
-
-root.children.append(child1)
-root.children.append(child2)
-root.children.append(child3)
-child1.children.append(child7)
-child1.children.append(child4)
-child2.children.append(child5)
-child3.children.append(child6)
-'''
-'''
-database = connection("tictactoe")
-
-root = getRoot(database)
-getTreesearch(database, root)
-
-#print(root.children)
-
-deleteTree(database)
-#updateTreesearch(database,root)
-'''
-

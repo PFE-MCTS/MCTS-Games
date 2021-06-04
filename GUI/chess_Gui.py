@@ -64,22 +64,38 @@ class MainWindow(QWidget):
                         if move in self.board.legal_moves:                                              # si le mouvement est permis
                             self.board.push(move)
                             change = True
-                            # joueur 1
-                            MainWindow.currentGameState = MainWindow.player1.Playerinterface(MainWindow.jeu, MainWindow.currentGameState, move)
 
-                            board = deepcopy(MainWindow.currentGameState['board'])
+                            # joueur 1
+                            MainWindow.currentGameState = MainWindow.player1.Playerinterface(MainWindow.jeu, MainWindow.currentGameState, str(move))
+                            print(MainWindow.currentGameState)
+                            # for test
+                            print(MainWindow.mcts.root.__dict__)
+                            print("this is the outcome", self.board.outcome())
+                                                                                # for test
+
+                            board = chess.Board(MainWindow.currentGameState['board'])
                             self.board = deepcopy(board)
                             self.drawBoard()
+
                             self.update()
                             QApplication.processEvents()
+
                         piece = None
                         coordinates = None
                     self.pieceToMove = [piece, coordinates]
                     self.drawBoard()
-
-                    if(self.haswon(self.board)== None):
-                        self.computerPlay(change, NBrollout=2, NBiteration=70, c=2)
+                    print(self.haswon(self.board.fen()))
+                    if(self.haswon(self.board.fen())== None):
+                        self.computerPlay(change, NBrollout=1, NBiteration=60, c=2)
                         self.drawBoard()
+
+                        print("this is the board", type(MainWindow.mcts.root.currentGameState['board']))
+                        '''data = connection("chess")
+                        deleteTree(data)
+                        updateTreesearch(data, MainWindow.mcts.root)'''
+                        print(self.haswon(self.board.fen()))
+
+                        print("this is the outcome", self.board.outcome())
                         print("this is the last line")
 
 
@@ -92,7 +108,7 @@ class MainWindow(QWidget):
                                                                        MainWindow.currentGameState,
                                                                        MainWindow.mcts.CurrentGameNode, NBrollout,NBiteration,c)
             MainWindow.lastMCTSState = deepcopy(MainWindow.currentGameState)
-            board = deepcopy(MainWindow.currentGameState['board'])
+            board = chess.Board(MainWindow.currentGameState['board'])
             self.board = deepcopy(board)
             return self.board
 
@@ -112,15 +128,17 @@ class MainWindow(QWidget):
 
         """
         if MainWindow.jeu.HasWon(board) == 1:
-            QMessageBox.about(self, "Partie terminée", " You lost ! ")
+            QMessageBox.about(self, "Partie terminée", " You won ! ")
             data = connection("chess")
             deleteTree(data)
             updateTreesearch(data, MainWindow.mcts.root)
+            self.board.reset()
         elif MainWindow.jeu.HasWon(board) == -1:
-            QMessageBox.about(self, "Partie terminée", " You won !! ")
+            QMessageBox.about(self, "Partie terminée", " You lost !! ")
             data = connection("chess")
             deleteTree(data)
             updateTreesearch(data, MainWindow.mcts.root)
+            self.board.reset()
         elif MainWindow.jeu.HasWon(board) == None:
             return None
         else:
@@ -128,6 +146,7 @@ class MainWindow(QWidget):
             data = connection("chess")
             deleteTree(data)
             updateTreesearch(data, MainWindow.mcts.root)
+            self.board.reset()
 
 
 
