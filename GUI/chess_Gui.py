@@ -86,7 +86,7 @@ class MainWindow(QWidget):
                     self.drawBoard()
                     print(self.haswon(self.board.fen()))
                     if(self.haswon(self.board.fen())== None):
-                        self.computerPlay(change, NBrollout=1, NBiteration=60, c=2)
+                        self.computerPlay(change, NBrollout=1, NBiteration=70, c=1.41)
                         self.drawBoard()
 
                         print("this is the board", type(MainWindow.mcts.root.currentGameState['board']))
@@ -132,13 +132,15 @@ class MainWindow(QWidget):
             data = connection("chess")
             deleteTree(data)
             updateTreesearch(data, MainWindow.mcts.root)
-            self.board.reset()
+            MainWindow.close()
+
         elif MainWindow.jeu.HasWon(board) == -1:
             QMessageBox.about(self, "Partie terminée", " You lost !! ")
             data = connection("chess")
             deleteTree(data)
             updateTreesearch(data, MainWindow.mcts.root)
-            self.board.reset()
+            MainWindow.close()
+
         elif MainWindow.jeu.HasWon(board) == None:
             return None
         else:
@@ -146,8 +148,7 @@ class MainWindow(QWidget):
             data = connection("chess")
             deleteTree(data)
             updateTreesearch(data, MainWindow.mcts.root)
-            self.board.reset()
-
+            MainWindow.close()
 
 
 

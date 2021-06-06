@@ -151,6 +151,10 @@ class main:
                 print("children visits", node.Visits)
                 print("children Score", node.Score)'''
 
+            data = connection("tictactoe")
+            deleteTree(data)
+            updateTreesearch(data, mcts.root)
+
 
 
 
@@ -161,8 +165,42 @@ class main:
 
 
 
-    def chessTraining(self):
-        pass
+    def chessTraining(self, Nbrpartie):
+        jeu = chessGame()
+        currentGameState = {'board': deepcopy(jeu.board), 'nextPlayer': "WHITE", 'value': None}
+        mcts = Mcts(jeu, 1)
+        mcts.CurrentGameNode = mcts.initialize(jeu, currentGameState,
+                                               "chess")  # créer la racine et les fils de la racine
+
+        for i in range(Nbrpartie):
+            while jeu.HasWon(currentGameState['board']) == None:
+                # jeux joueur 1
+
+                # premier joueur MCTS
+
+                currentGameState = mcts.ComputerVsComputer(jeu, currentGameState)
+
+                if (jeu.HasWon(currentGameState['board']) == None):
+                    currentGameState = mcts.ComputerVsComputer(jeu, currentGameState)
+                    lastMCTSState = deepcopy(currentGameState)
+                    tictac.HasWon(currentGameState['board'])
+
+            print("the winner is the player", jeu.HasWon(currentGameState['board']))
+            print("\n the final board", currentGameState['board'])
+            currentGameState = {'board': [" ", " ", " ", " ", " ", " ", " ", " ", " "], 'nextPlayer': "X",
+                                'value': None}
+            mcts.CurrentGameNode = mcts.root
+
+            # for testing
+            print("root.visits", mcts.root.Visits)
+            for node in mcts.root.children:
+                '''print("children value", node.value)
+                print("children visits", node.Visits)
+                print("children Score", node.Score)'''
+
+            data = connection("chess")
+            deleteTree(data)
+            updateTreesearch(data, mcts.root)
 
 
 
@@ -172,6 +210,8 @@ main= main()
 
 tictac = TicTacToe()
 main.tictacTraining(50)
+
+main.chessTraining(10)
 
 
 
