@@ -132,14 +132,16 @@ class MainWindow(QWidget):
             data = connection("chess")
             deleteTree(data)
             updateTreesearch(data, MainWindow.mcts.root)
-            MainWindow.close()
+            print("Tree pushed successfully")
+            self.close()
 
         elif MainWindow.jeu.HasWon(board) == -1:
             QMessageBox.about(self, "Partie terminée", " You lost !! ")
             data = connection("chess")
             deleteTree(data)
             updateTreesearch(data, MainWindow.mcts.root)
-            MainWindow.close()
+            print("Tree pushed successfully")
+            self.close()
 
         elif MainWindow.jeu.HasWon(board) == None:
             return None
@@ -148,7 +150,8 @@ class MainWindow(QWidget):
             data = connection("chess")
             deleteTree(data)
             updateTreesearch(data, MainWindow.mcts.root)
-            MainWindow.close()
+            print("Tree pushed successfully")
+            self.close()
 
 
 

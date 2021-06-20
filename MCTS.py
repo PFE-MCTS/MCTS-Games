@@ -159,8 +159,6 @@ class Mcts:
             return None
 
 
-
-
     def rollout(self, game: Game, leaf: TNode, NumberRollout=1):
         '''
         phase de rollout(simulation)
@@ -168,7 +166,7 @@ class Mcts:
         appel a la fonction de haswon() de la classe game
         le resultat du rollout est un score entier
         '''
-        Scorefinal =0
+        Scorefinal = 0
         for i in range(NumberRollout):
             state = deepcopy(leaf.currentGameState)
             board = deepcopy(leaf.currentGameState['board'])
@@ -242,7 +240,7 @@ class Mcts:
 
     def ComputerVsComputer(self, game: Game,currentMctsState, NbrIterations=1000,Nbrollout=10,c=1.41 ):
              #condition si on es deja dans le noeud dans find node
-        #self.CurrentGameNode = self.find_Node(currentNode, currentMctsState['value'])
+
 
         self.ApplyMCTS(game, self.CurrentGameNode, NbrIterations, Nbrollout, c)
 

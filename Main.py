@@ -203,15 +203,13 @@ class main:
             updateTreesearch(data, mcts.root)
 
 
-
-
 main= main()
 
 
 tictac = TicTacToe()
 main.tictacTraining(50)
 
-main.chessTraining(10)
+#main.chessTraining(10)
 
 
 
