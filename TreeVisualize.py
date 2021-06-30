@@ -102,7 +102,7 @@ if __name__ == '__main__':
     s.view()
 
 
-    # TICTACTOE GRAPH
+    '''# TICTACTOE GRAPH
     root = TNode(parent=None,
                  GameState={'board': [" ", " ", " ", " ", " ", " ", " ", " ", " "], 'nextPlayer': "X", 'value': None},
                  value=None)
@@ -117,7 +117,7 @@ if __name__ == '__main__':
 
     graph.dot.render('TreeSearch-output/tictactoe.gv', view=True)
 
-
+'''
     '''# CHESS GRAPH
 
     root = TNode(parent=None,
