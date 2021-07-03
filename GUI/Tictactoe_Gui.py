@@ -13,12 +13,21 @@ player1 = Tplayer()
 mcts = Mcts(tictac, 1)
 mcts.CurrentGameNode = mcts.initialize(tictac, currentGameState, "tictactoe")  # créer la racine et les fils de la racine
 
-def button(frame):          #Function to define a button
+def button(frame):
+    '''
+    function to define a button
+    :param frame:
+    :return:
+    '''
     b= Button(frame,padx=1,bg="papaya whip",width=3,text="   ",font=('arial',60,'bold'),relief="sunken",bd=10)
     return b
 
 
-def change_a():             #Function to change the operand for the next player
+def change_a():
+    '''
+    Function to change the operand for the next player
+    :return:
+    '''
     global a
     for i in ['O','X']:
         if not(i==a):
@@ -27,6 +36,10 @@ def change_a():             #Function to change the operand for the next player
 
 
 def reset():
+    '''
+    function to reset the game
+    :return:
+    '''
     mcts.CurrentGameNode = mcts.root
     global currentGameState
     currentGameState = deepcopy(mcts.root.currentGameState)
@@ -40,7 +53,12 @@ def reset():
 
 
 
-def check(board):                #Checks for victory or Draw
+def check(board):
+    '''
+                    Checks for victory , Draw or lose
+    :param board:
+    :return:
+    '''
     if tictac.HasWon(board) == -1:
         messagebox.showinfo("Congrats!!, X has won")
         data = connection("tictactoe")
@@ -65,6 +83,12 @@ def check(board):                #Checks for victory or Draw
 
 
 def getBoardIndex(i: int,j: int):
+    '''
+    function that render the move index from the board matrix  and adapt it to the list index
+    :param i:
+    :param j:
+    :return:
+    '''
     coup =0
     if i == 0 and j == 0:
         coup = 1
@@ -87,6 +111,12 @@ def getBoardIndex(i: int,j: int):
     return coup
 
 def getCoupIndex(coup: int):
+
+    '''
+    function that get the move to be played and adapt it to the index of the matrix board
+    :param coup:
+    :return:
+    '''
 
     i=0
     j=0
@@ -128,6 +158,13 @@ def getCoupIndex(coup: int):
         return {'row': i, 'col': j}
 
 def click(row, col, currentGameState):
+        '''
+        event of clocking on the borad buttons
+        :param row:
+        :param col:
+        :param currentGameState:
+        :return:
+        '''
         b[row][col].config(text=a, state=DISABLED, disabledforeground=colour[a])
         coup = getBoardIndex(row, col)
 

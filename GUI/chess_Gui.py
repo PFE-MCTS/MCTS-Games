@@ -48,7 +48,7 @@ class MainWindow(QWidget):
     @pyqtSlot(QWidget)
     def mousePressEvent(self, event):
         """
-        méthode qui s'invoque lors du clique sur une case de l'échiquier afin de faire une deplacement
+            function that is invoked when clicking on a square of the chessboard in order to move
         """
         if event.x() <= self.boardSize and event.y() <= self.boardSize:
             if event.buttons() == Qt.LeftButton:
@@ -101,6 +101,7 @@ class MainWindow(QWidget):
 
 
     def computerPlay(self, change, NBrollout:int, NBiteration:int,c):
+        ''' method that call the computer play if its his turn'''
         if change == True:
 
             # ici demander a l'ordinateur de jouer .
@@ -115,7 +116,7 @@ class MainWindow(QWidget):
 
     def drawBoard(self):
         """
-        fonction qui dessine l'echiquier et qui l'actualise
+        function that draw the board
         """
         self.boardSvg = self.board._repr_svg_().encode("UTF-8")
         self.drawBoardSvg = self.widgetSvg.load(self.boardSvg)
@@ -124,7 +125,7 @@ class MainWindow(QWidget):
 
     def haswon(self, board):
         """
-        fonction qui indique si il ya un vainqueur ou si il ya match null
+            function that check if there is a winner
 
         """
         if MainWindow.jeu.HasWon(board) == 1:
@@ -156,6 +157,7 @@ class MainWindow(QWidget):
 
 
 
+#########---   Main   ---##########
 
 if __name__ == "__main__":
     chessGui = QApplication(sys.argv)
