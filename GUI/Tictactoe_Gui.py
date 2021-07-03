@@ -176,7 +176,7 @@ def click(row, col, currentGameState):
 
         if(tictac.HasWon(currentGameState['board']) == None):
             label.config(text="O's Chance")
-            currentGameState = mcts.ComputerPlay(tictac, currentGameState, mcts.CurrentGameNode, NBrollout=30, NbIteration=2000, c=1.41)
+            currentGameState = mcts.ComputerPlay(tictac, currentGameState, mcts.CurrentGameNode, NBrollout=30, NbIteration=2000, c=2)
             lastMCTSState = deepcopy(currentGameState)
             result = getCoupIndex(currentGameState['value'])
             i = result['row']
