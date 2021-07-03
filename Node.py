@@ -27,9 +27,7 @@ class TNode:
 
     def is_leaf(self) -> bool:
         '''
-        méthode verrifiant si le noeud est une feuille
-        si le noeud est une feuille elle retourne true
-        sinon elle retourne false
+        function that checks if a node is a leaf
         '''
 
         if(self.children == []):
@@ -38,12 +36,10 @@ class TNode:
             return False
 
     
-    def is_terminal(self, game:Game, board) -> bool:               # a revoir
-        ''' Méthode qui verrifie si le noeud est terminal
- 
-        si noeud terminal return true
-        sinon return false
-        
+    def is_terminal(self, game:Game, board) -> bool:
+        '''
+
+        function that checks if a node is terminal
         '''
         if game.HasWon(board) == None:
             return False
@@ -51,20 +47,13 @@ class TNode:
             return True
 
 
-    def add_children1(self, game: Game,currentState):           # gardé au cas ou la fonction principale ne fonctionne plus
-        board = currentState['board']
-        if currentState['nextPlayer'] == game.player1:
-            nextPlayer = game.player2
-        else:
-            nextPlayer = game.player1
-        for move in game.possibleMoves(board):
-            childboard = deepcopy(board)
-            childboard[move-1] = currentState['nextPlayer']
-            newstate = {'board': childboard, 'nextPlayer': nextPlayer, 'value': move}
-            self.children.append(TNode(self, newstate, move))
-
-
     def add_children(self, game: Game,currentState):
+        '''
+        function that add a children from a given game state
+        :param game:
+        :param currentState:
+        :return:
+        '''
         board = currentState['board']
         if currentState['nextPlayer'] == game.player1:
             nextPlayer = game.player2
@@ -74,10 +63,3 @@ class TNode:
             newstate= game.UpdateBoard(move, currentState, nextPlayer)
             self.children.append(TNode(self, newstate, move))
 
-
-'''node= TNode(None,{'Board': ["X", "O", "X",
-                              " ", "O", "O",
-                              " ", " ", " "],
-                     'nextPlayer': "O", 'value':'1'
-                },1)
-'''

@@ -33,7 +33,13 @@ class Mcts:
 
     def initialize(self, game:Game, currentGameState, database):
         # creer la racine
-
+        '''
+        function to initialize the game at it beggining
+        :param game:
+        :param currentGameState:
+        :param database:
+        :return: the root of the tree search
+        '''
         data = connection(database)
         collection = data['tree']
         NbrDocument= collection.find().count()
@@ -62,9 +68,9 @@ class Mcts:
 
     def selectMove(self,actualNode: TNode):
         '''
-        fonction qui selectionne le prochain deplacement de l'ordinateur, a travers le nombre de visites maximal
-        :param actualNode: le noeud de l'état actuel
-        :return: le noeud selectionné du deplacment
+        function that selects the next move of the computer, through the maximum number of visits
+        :param actualNode: the actual game node
+        :return: the max node
         '''
         NbrVisites = 0
         MaxNode = None
@@ -81,6 +87,11 @@ class Mcts:
 
 
     def selectMoveTuned(self,actualNode: TNode):
+        '''
+        select move tuned for self play that select randomly a node from the 3 best moves
+        :param actualNode:
+        :return:
+        '''
         MaxNode = None
         if actualNode.children != []:
             numberValues= len(actualNode.children)
@@ -102,8 +113,7 @@ class Mcts:
 
     def Select_Node(self, root: TNode, c):
         '''
-            phase de selection des noeuds en applicant UCB
-            fonction recursive
+            MCTS selection step
         '''
                             # condition si le noeud a un fils is leaf
 
@@ -128,8 +138,12 @@ class Mcts:
 
 
     def find_Node(self, node:TNode, valeur):
-        '''print("find node , node:",node)
-        print("find node , node.children:", node.children)'''
+        '''
+        fonction to detect if a node has a children with a given value
+        :param node:
+        :param valeur:
+        :return: the children
+        '''
         if(node.children != []):
             for node in node.children:
                 if node.currentGameState['value'] == valeur:
@@ -146,9 +160,8 @@ class Mcts:
 
     def expand_Node(self, game: Game, node: TNode):
         '''
-        phase d'expansion de l'arbre de recherche
-        induis a lajout de fils (children au noeud en parametres)
- 
+                expension step in MCTS
+
         '''
         state = deepcopy(node.currentGameState)
         board = deepcopy(node.currentGameState['board'])
@@ -161,10 +174,11 @@ class Mcts:
 
     def rollout(self, game: Game, leaf: TNode, NumberRollout=1):
         '''
-        phase de rollout(simulation)
-        le parametre Number_Rollout definis le nombre de simulations a faire
-        appel a la fonction de haswon() de la classe game
-        le resultat du rollout est un score entier
+           MCTS rollout step
+        :param game: the game played
+        :param leaf: the leaf from where begining the rollout
+        :param NumberRollout: the number of rollout to be made
+        :return: the score of the rollout (s)
         '''
         Scorefinal = 0
         for i in range(NumberRollout):
@@ -181,7 +195,9 @@ class Mcts:
 
     def UCT(self, node: TNode,c) -> float:
         
-        ''' calcul de l'UCT a travers la formule UCB '''
+        '''
+        UCB formula made for MCTS function
+        '''
         if node.Visits == 0:
             return float('inf')
         else:
@@ -192,7 +208,7 @@ class Mcts:
     def BackPropagation(self, rolloutnode: TNode, score):
         
         ''' 
-        phase de backpropagation du score et du nombre de visites
+        backprobagation MCTS phase
  
         '''
 
@@ -209,6 +225,15 @@ class Mcts:
 
 
     def ApplyMCTS(self,game: Game, currentNode: TNode, NbrIterations: int , Nbrollout : int, c ):
+        '''
+        function that apply MCTS steps
+        :param game:
+        :param currentNode:
+        :param NbrIterations:
+        :param Nbrollout:
+        :param c:
+        :return:
+        '''
 
         iteration = 0
         while iteration < NbrIterations:
@@ -227,6 +252,17 @@ class Mcts:
 
 
     def ComputerPlay(self, game: Game,currentMctsState ,currentNode: TNode, NBrollout:int, NbIteration: int, c):
+
+        '''
+        function that allow the computer to play
+        :param game:
+        :param currentMctsState:
+        :param currentNode:
+        :param NBrollout:
+        :param NbIteration:
+        :param c:
+        :return:
+        '''
              #condition si on es deja dans le noeud dans find node
         self.CurrentGameNode = self.find_Node(currentNode, currentMctsState['value'])
         self.ApplyMCTS(game, self.CurrentGameNode, NbIteration, NBrollout, c)
@@ -239,6 +275,16 @@ class Mcts:
         return currentMctsState
 
     def ComputerVsComputer(self, game: Game,currentMctsState, NbrIterations=1000,Nbrollout=10,c=1.41 ):
+        '''
+        function that allows the computer to play in the case of training (self-play)
+        :param game:
+        :param currentMctsState:
+        :param NbrIterations:
+        :param Nbrollout:
+        :param c:
+        :return:
+        '''
+
              #condition si on es deja dans le noeud dans find node
 
 

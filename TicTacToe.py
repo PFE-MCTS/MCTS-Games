@@ -42,6 +42,13 @@ class TicTacToe (Game):
 
 
     def UpdateBoard(self, move, state, nextPlayer):
+        '''
+        function that allows to update the state board with the attributes that are specific to the game played
+        :param move:
+        :param state:
+        :param nextPlayer:
+        :return: the new state of the updated board
+        '''
         board = state['board']
         childboard = deepcopy(board)
         childboard[move - 1] = state['nextPlayer']
@@ -51,81 +58,37 @@ class TicTacToe (Game):
 
 
     def display_state(self,board):
+        '''
+        function that display states of the game in console
+        (used for debug)
+        :param board:
+        :return:
+        '''
         print(board[0] + " | " + board[1] + " | " + board[2])
         print(board[3] + " | " + board[4] + " | " + board[5])
         print(board[6] + " | " + board[7] + " | " + board[8])
 
     def change_player(self):
-
+        '''
+        function of tictactoe that changes the player turn in the game
+        :return:
+        '''
         if self.turn == 1:
             self.turn = 2
         elif self.turn == 2:
             self.turn = 1
 
 
-    '''def play(self, currentGameState, Coup=None, Rollout=None):
 
-        GameTurn = currentGameState['nextPlayer']
-        board = currentGameState['board']
-        if Rollout == None:
-            if (GameTurn == "X"):
-                position = input(" Choissisez une position entre (1 et 9): ")
-                while position not in ['1', '2', '3', '4', '5', '6', '7', '8', '9']:
-                    position = input("Position incorrecte, Choissisez une position entre (1 et 9): ")
-
-                index = self.state.index(str(position))
-                position = int(position) - 1
-                if board[position] != " ":
-                    raise RuntimeError("Mouvement incorrecte")
-
-                board[position] = "X"
-                currentGameState['board'] = board
-                self.display_state(board)
-                self.HasWon(board)
-
-                return {'board': board, 'nextPlayer': "0", 'value': position + 1}
-            else:
-
-                index = self.state.index(str(Coup))
-                #            self.state.pop(index)
-                position = int(Coup) - 1
-                if board[position] != " ":
-                    raise RuntimeError("Mouvement incorrecte")
-
-                board[position] = "O"
-                currentGameState['board'] = board
-
-                self.display_state(board)
-                self.HasWon(board)
-                return {'board': board, 'nextPlayer': "X", 'value': Coup}
-        else:
-            if (GameTurn == "X"):
-                index = self.state.index(str(Coup))
-                #            self.state.pop(index)
-                position = int(Coup) - 1
-                if board[position] != " ":
-                    raise RuntimeError("Mouvement incorrecte")
-
-                board[position] = "X"
-                currentGameState['board'] = board
-                self.HasWon(board)
-                return {'board': board, 'nextPlayer': "O", 'value': Coup}
-            else:
-
-                index = self.state.index(str(Coup))
-                #            self.state.pop(index)
-                position = int(Coup) - 1
-                if board[position] != " ":
-                    raise RuntimeError("Mouvement incorrecte")
-
-                board[position] = "O"
-                currentGameState['board'] = board
-                self.HasWon(board)
-                return {'board': board, 'nextPlayer': "X", 'value': Coup}
-
-'''
 
     def play(self, currentGameState, Coup=None, Rollout=None):
+        '''
+        function of playing a move in tictactoe, and also used for rollout
+        :param currentGameState:
+        :param Coup:
+        :param Rollout:
+        :return: the new game state after playing the move
+        '''
 
         GameTurn = currentGameState['nextPlayer']
         board = currentGameState['board']
@@ -184,7 +147,13 @@ class TicTacToe (Game):
 
 
     def HasWon(self, board = None) -> int:
-
+        '''
+        function that check the game result at a T instant
+        :param board:
+        :return: +1 if computer win
+                  -1 if computer lose
+                  0 if draw
+        '''
         if board == None:
             # rows
             if self.board[0] == self.board[1] == self.board[2] != " ":

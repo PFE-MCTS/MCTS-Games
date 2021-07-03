@@ -9,11 +9,6 @@ class Game(ABC):
 
     @abstractmethod
     def possibleMoves(self, board):
-        '''
-        fonction a utiliser lors du rollout, prends en parametre l'etat actuel du noeud ainsi que le noeud
-        :return: une liste de mouvements possibles
-        '''
-
         pass
 
     @abstractmethod

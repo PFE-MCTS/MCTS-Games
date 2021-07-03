@@ -25,6 +25,14 @@ client = MongoClient()
 '''
 
 def connection(database, localhost="localhost", port=27017):
+
+    '''
+    function for establishing the connection with mongodb server
+    :param database:
+    :param localhost:
+    :param port:
+    :return:
+    '''
     try:
         client = MongoClient(host=localhost, port=port)
         db = client[database]
@@ -34,11 +42,24 @@ def connection(database, localhost="localhost", port=27017):
         return False
 
 def getNode(id, database):
+    '''
+    function for getting a node by its id
+    :param id:
+    :param database:
+    :return:
+    '''
     collection = database['tree']
     node = collection.find_one({"_id": id})
     return node
 
 def setNodeProperty(id,parent: TNode, database):
+    '''
+    function for seting the node property when getting him from database
+    :param id:
+    :param parent:
+    :param database:
+    :return:
+    '''
     if id > 0:
         dbnode = getNode(id, database)
         node = TNode(parent, deepcopy(dbnode['gameState']), dbnode['value'])
@@ -51,6 +72,11 @@ def setNodeProperty(id,parent: TNode, database):
 
 
 def getRoot(database):
+    '''
+    function for getting the root of the tree from the database
+    :param database:
+    :return:
+    '''
     root = setNodeProperty(1, None, database)
     return root
 
@@ -59,9 +85,7 @@ def getRoot(database):
 
 def getTreesearch(database, root: TNode):
     '''
-        fonction qui charge en memoire l'arbre de recherche d'un jeu  sous forme d'objets
-
-    :return: la racine de l'arbre ou False si l'arbre n'existe pas
+      fonction that get the tree search from the database and load it to memory
     '''
     dbnode = getNode(root.id, database)
     if dbnode['children'] != []:
@@ -71,21 +95,18 @@ def getTreesearch(database, root: TNode):
             getTreesearch(database, node)
 
 
-
-
-
-
-
-
-
-
-def deleteTree(data):                                           # suppression de l'arbre precedent
+def deleteTree(data):
+    '''
+    function that deleting a tree from database
+    :param data:
+    :return:
+    '''
     collection = data['tree']
     collection.delete_many({})
 
 def updateTreesearch(database,root:TNode):
     '''
-    fonction qui met a jour l'arbre de recherche dans la base de donnée apres la fin d'une partie
+    function that update the tree search in the database after the game finished
     '''
                 # création d'un nouvel arbre
 

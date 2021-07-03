@@ -150,7 +150,7 @@ def click(row, col, currentGameState):
 
 
 
-###############   Main Program #################
+#########---   Main   ---##########
 
 
 root=Tk()                   #Window defined

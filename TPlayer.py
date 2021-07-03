@@ -1,4 +1,5 @@
-from TicTacToe import *
+from Game import Game
+
 
 class Tplayer:
 
@@ -10,13 +11,15 @@ class Tplayer:
         {'board': [" ", " ", " ", " ", " ", " ", " ", " ", " "], 'nextPlayer' : "X",'value': '1:9'}
         '''
 
-    def Player1Move(self, game: Game, currentGameState):
-
-
-        result = game.play(currentGameState)
-        return result
 
     def Playerinterface(self, game: Game, currentGameState, coup):
+        '''
+            function that allow the player to make a move
+        :param game: to specify the game played
+        :param currentGameState:
+        :param coup:
+        :return: a result of the state played by the player
+        '''
         result = game.play(currentGameState, coup)
 
         return result

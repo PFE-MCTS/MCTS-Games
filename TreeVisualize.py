@@ -19,6 +19,14 @@ class Visualize:
 
 
     def VisualizeTreetictactoe(self,root: TNode, iteration =0):
+        '''
+        function that visualize the tree search of tictactoe
+        the tree may not be displayable, in case of beign too large for an SVG format
+
+        :param root: the root of the tree
+        :param iteration:  the number of iteration in depth
+        :return: SVG image
+        '''
         if iteration < 3:
             if (root.parent == None):
                 self.dot.node(str(root.id), str([" ", " ", " ", " ", " ", " ", " ", " ", " "]))
@@ -32,6 +40,12 @@ class Visualize:
 
 
     def VisualizeTreetictactoetuned(self,root: TNode, iteration =0):
+        '''
+        function that diplay a small part of the tree search of tictactoe in order to visualize it in an SVG format
+        :param root: root of the tree search
+        :param iteration:  the number of iteration in depth
+        :return:  an SVG image
+        '''
         if iteration < 2:
             if (root.parent == None):
                 self.dot.node(str(root.id), str([" ", " ", " ", " ", " ", " ", " ", " ", " "]))
@@ -49,7 +63,18 @@ class Visualize:
                 self.dot.edge(str(root.id), str(root.children[2].id))
                 self.VisualizeTreetictactoe(root.children[2], iteration + 1)
 
+
+
+
     def VisualizeTreechess(self, root: TNode, iteration = 0):
+        '''
+                function that visualize the tree search of chess
+                the tree may not be displayable, in case of beign too large for an SVG format
+
+                :param root: the root of the tree
+                :param iteration:  the number of iteration in depth
+                :return: SVG image
+                '''
         if iteration <= 3:
             if (root.parent == None):
                 self.dot.node(str(root.id), str(chess.Board(root.currentGameState['board'])))
@@ -64,6 +89,13 @@ class Visualize:
 
 
     def VisualizeTreechesstuned(self, root: TNode, iteration = 0):
+
+        '''
+               function that diplay a small part of the tree search of chess in order to visualize it in an SVG format
+               :param root: root of the tree search
+               :param iteration:  the number of iteration in depth
+               :return:  an SVG image
+               '''
         if iteration <= 2:
             if (root.parent == None):
                 self.dot.node(str(root.id), str(chess.Board(root.currentGameState['board'])))
@@ -95,10 +127,12 @@ class Visualize:
 
 
 
+#########---   Main   ---##########
 if __name__ == '__main__':
 
+    # visualizing dot document
     graph = Visualize()
-    s = Source.from_file('TreeSearch-output/tictactoe.gv')
+    s = Source.from_file('TreeSearch-output/chess.gv')
     s.view()
 
 

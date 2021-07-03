@@ -15,15 +15,8 @@ class chessGame (Game):
         self.board = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 
 
-        '''
-        p= pion
-        r= tour 
-        n= 
-        b=fous
-        q= reine
-        k=rois
-        
-        
+        '''        
+    
          CurrentGameState de type : {Board:  
         r n b q k b n r
         p p p p p p p p
@@ -41,8 +34,8 @@ class chessGame (Game):
 
     def possibleMoves(self, board=None):
         '''
-        fonction a utiliser lors du rollout, prends en parametre l'etat actuel du noeud ainsi que le noeud
-        :return: une liste de mouvements possibles
+        function that returns the possible moves from a given game state
+        :return: list of possible moves
         '''
 
         if board == None:
@@ -56,51 +49,46 @@ class chessGame (Game):
             moves = [str(i) for i in moves]
             return moves
 
+
     def change_player(self):
         pass
 
-    def display_state(self,board):          # y ajouter une interface
+
+
+    def display_state(self,board):
+        '''
+        diplaying state of the game (for debug)
+        :param board:
+        :return:
+        '''
         print(chess.Board(board))
 
 
 
     def UpdateBoard(self, move, state, nextPlayer):
+        '''
+        for updating the board from a given state
+        :param move:
+        :param state:
+        :param nextPlayer:
+        :return:
+        '''
         ChessInstance = chess.Board(state['board'])
         childboard = deepcopy(ChessInstance)
         childboard.push(chess.Move.from_uci(move))
         newstate = {'board': childboard.fen(), 'nextPlayer': nextPlayer, 'value': move}
         return newstate
 
-    '''def play(self, currentGameState, Coup=None, Rollout=None):
-        GameTurn = currentGameState['nextPlayer']
-        board = currentGameState['board']
-        if Rollout == None:
-            if (GameTurn == "WHITE"):                                                   # tour du joueur
-                print("on es ici", GameTurn)
-                moves = self.possibleMoves(board)
-                position = input(" Choissisez une position: ")
-                position = int(position) - 1
-                board.push(moves[position])
-                currentGameState['board'] = board
-                self.display_state(board)
-                self.HasWon(board)
-                return {'board': board, 'nextPlayer': "BLACK", 'value': moves[position]}
 
-            else:                                                                       # tour de l'ordinateur
-                board.push(Coup)
-                next_player = self.Nextplayer(board)
-                print(next_player)
-                self.display_state(board)              # interface
-                self.HasWon(board)
-                return {'board': board, 'nextPlayer': next_player, 'value': Coup}
-
-        else:                                                                           # rollout
-            board = currentGameState['board']
-            board.push(Coup)
-            next_player = self.Nextplayer(board)
-            return {'board': board, 'nextPlayer': next_player, 'value': Coup}'''
 
     def play(self, currentGameState, Coup=None, Rollout=None):
+        '''
+        function that play chess game from a game state
+        :param currentGameState:
+        :param Coup:
+        :param Rollout:
+        :return: the new state of the game
+        '''
         GameTurn = currentGameState['nextPlayer']
         chessInstance = chess.Board(currentGameState['board'])
         if Rollout == None:
@@ -126,9 +114,9 @@ class chessGame (Game):
 
     def Nextplayer(self, board):
         '''
-
+                function that check the next player
         :param board:
-        afin davoir le prochain a jouer
+
         :return:  "black" ou "White"
         '''
         chessInstance = chess.Board(board)
@@ -139,7 +127,12 @@ class chessGame (Game):
 
 
 
-    def HasWon(self, board=None):                  # a revoir pour indiquer le vrai gagnant
+    def HasWon(self, board=None):
+        '''
+        function to check the winner by giving a game state
+        :param board:
+        :return:
+        '''
         if board == None:
             chessInstance = chess.Board(self.board)
             resultat = chessInstance.outcome()
