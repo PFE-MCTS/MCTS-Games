@@ -23,6 +23,7 @@ _GenericGame is a Monte Carlo tree search engine That allows you to apply it to 
 
 
 ## Applying it to your game
+If you want to apply MCTS engine to your game you have to follow theses steps:
 1. Clone the project or download it
 2. Read the [standard.py file](https://github.com/PFE-MCTS/MCTS-Games/blob/master/Standard.py)
 3. code your game according to the standard.py template
