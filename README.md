@@ -5,7 +5,7 @@ _GenericGame is a generic Monte-Carlo tree search engine. This project is a mast
 
 ## Overview
 
-_GenericGame is a Monte Carlo tree search engine That allows you to apply it to any combinatorial game, programmed according to a standard defined in the [standard.py file](https://github.com/PFE-MCTS/MCTS-Games/blob/master/Standard.py)_
+_GenericGame is a Monte Carlo tree search engine That allows you to apply Monte-Carlo tree search to any combinatorial game, programmed according to a standard defined in the [standard.py file](https://github.com/PFE-MCTS/MCTS-Games/blob/master/Standard.py)_
 
 ## Dependencies
 
