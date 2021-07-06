@@ -1,11 +1,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-# Monte Carlo tree search engine
-_This is a master degree end of study project internship_
+# GenericGame
+_ GenericGame is a generic Monte-Carlo tree search engine. This project is a master degree end of study project internship_
 
 ## Overview
 
-_Monte Carlo tree search engine That allows you to apply it to any combinatorial game, programmed according to a standard defined in the standard.py file_
+_ GenericGame is a Monte Carlo tree search engine That allows you to apply it to any combinatorial game, programmed according to a standard defined in the standard.py file_
 
 ## Dependencies
 
