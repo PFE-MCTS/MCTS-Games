@@ -50,7 +50,7 @@ Your contribution is the power of the open-source community, so if you notice an
  
  + #### Brahimi Aziz: Email: aziz981@live.com  ------   Linkedin: [Brahimi aziz](https://www.linkedin.com/in/aziz-brahimi-31621a207/)
  
- + #### Belmecheri Nassim
+ + #### Belmecheri Nassim: Email: nassimbb07@gmail.com ------ Linkedin: [Belmecheri Nassim](https://www.linkedin.com/in/nassim-belmecheri-11b698111/)
  
  ## Acknowledgements
  + [MIT licence](https://opensource.org/licenses/MIT).
