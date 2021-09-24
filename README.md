@@ -1,11 +1,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # GenericGame
-_GenericGame is a generic Monte-Carlo tree search engine. This project is a master degree end of study project internship_
+_GenericGame is a generic Monte-Carlo tree search engine. This code has been developped in the context of an internship for computer science master degree studies._
 
 ## Overview
 
-_GenericGame is a Monte Carlo tree search engine That allows you to apply Monte-Carlo tree search to any combinatorial game, programmed according to a standard defined in the [standard.py file](https://github.com/PFE-MCTS/MCTS-Games/blob/master/Standard.py)_
+_GenericGame is a Monte Carlo tree search engine applying Monte-Carlo tree search on combinatorial games, where the game specific properties are defined in [standard.py file](https://github.com/PFE-MCTS/MCTS-Games/blob/master/Standard.py)_
 
 ## Dependencies
 
@@ -19,23 +19,23 @@ _GenericGame is a Monte Carlo tree search engine That allows you to apply Monte-
 
 1. Clone this project locally
 2. Run the tictactoe_GUI.py or chess_Gui.py
-3. Write in terminal: ```python3 chess_Gui.py``` or ```python3 tictactoe_Gui.py```
+3. launch in terminal: ```python3 chess_Gui.py``` or ```python3 tictactoe_Gui.py```
 
 
 ## Applying it to your game
-If you want to apply MCTS engine to your game you have to follow theses steps:
+If you want to apply MCTS engine to your new game, you have to follow the following steps:
 1. Clone the project or download it
-2. Read the [standard.py file](https://github.com/PFE-MCTS/MCTS-Games/blob/master/Standard.py)
-3. code your game according to the standard.py template
-4. run your game with console or with a GUI ```python3 <YourGame.py>```
+2. Be aware of the game specific operations declared in [standard.py file](https://github.com/PFE-MCTS/MCTS-Games/blob/master/Standard.py)
+3. Encode your game according to the standard.py template
+4. launch your game with console or with a GUI ```python3 <YourGame.py>```
 
 
 
 ## Contributing
-Your contribution is the power of the open-source community, so if you notice any issue or a possible improvement your contributions will be greatly appreciated
+Your contribution is the power of the open-source community, so if you notice any issue or a possible improvement, your contributions will be greatly appreciated
 
 1. Create a personal fork of the project on Github.
-2. Clone the fork on your local machine. ``` git clone https://github.com/PFE-MCTS/MCTS-Games ```
+2. Clone the fork on your local machine ``` git clone https://github.com/PFE-MCTS/MCTS-Games ```
 3. Commit your changes. ```git commit -m ' your message'```
 4. Push to the branch.  ``` git push origin <the origin of your forked github repo >```
 5. Create a pull-request.
